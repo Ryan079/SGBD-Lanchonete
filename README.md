@@ -26,7 +26,7 @@
    Alternativamente, execute via terminal:
    ```bash
    docker-compose up -d
-
+```
 ## Modelo Conceitual
 
 ![Modelo Conceitual do projeto](imagens/modeloConceitual.png)
