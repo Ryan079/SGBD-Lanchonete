@@ -16,7 +16,9 @@
 
 2. Clone este repositório ou faça o download dos arquivos do projeto.
 
-3. (Opcional) Caso utilize o **Visual Studio Code**:
+3. Abra o terminal no diretório do projeto e execute 'docker-compose up -d'
+
+3.1 (Opcional) Caso utilize o **Visual Studio Code**:
    - Instale a extensão **Docker / Container Tools**.
    - Abra o arquivo `docker-compose.yml`.
    - Clique em **Run All Services** para iniciar os containers.
