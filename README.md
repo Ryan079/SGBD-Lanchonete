@@ -1,5 +1,12 @@
 # SGBD-Lanchonete
 
+## Contribuintes
+- Ryan Oliveira Marques
+- Thayson Guedes de Medeiros
+- Luigi Mateo e Silva
+- Lucas
+- Felipe Mendes
+
 ## Instruções de Execução do Projeto
 ### Pré-requisitos
 - Docker Desktop instalado
