@@ -33,9 +33,15 @@
 
 📄 [Versão em PDF](docs/Modelo%20Conceitual.pdf)
 
+## Modelo Entidade Relacionamento
+
+![Modelo Entidade Relacionamento do projeto](docs/ER_dark.pdf)
+
+📄 [Versão em PDF](imagens/ER_dark.jpeg)
+
 ## Dicionário de Dados
 
 📄 [Dicionário de Dados (PDF)](docs/Dicionário%20de%20Dados%20-%20Banco%20de%20Dados%20Att.pdf)
 
 ## DML
-O banco de dados foi povoado através de comandos scripts contidos no arquivo `init.sql` executados automaticamente na primeira execução do container
+O banco de dados foi povoado através de comandos scripts contidos nos arquivos `01_ddl_criacao.sql` e `02_dml_povoamento.sql` executados automaticamente na primeira execução do container
