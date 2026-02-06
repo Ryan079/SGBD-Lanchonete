@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: lanchonete_db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: lanchonete
+    ports:
+      - "5432:5432"
+    volumes:
+      # Mapeia o script SQL para ser executado automaticamente na criação
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
