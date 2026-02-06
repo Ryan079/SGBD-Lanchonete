@@ -25,5 +25,9 @@
    ```bash
    docker-compose up -d
 
+## Modelo Conceitual
+
+![Modelo Conceitual do projeto](imagens/modeloConceitual.png)
+
 ## DML
 O banco de dados foi povoado através de comandos scripts contidos no arquivo `init.sql` executados automaticamente na primeira execução do container
