@@ -4,8 +4,8 @@
 - Ryan Oliveira Marques
 - Thayson Guedes de Medeiros
 - Luigi Mateo e Silva
-- Lucas
-- Felipe Mendes
+- Lucas Henrique de Andrade Silva
+- Felipe Mendes Soares Silva
 
 ## Instruções de Execução do Projeto
 ### Pré-requisitos
