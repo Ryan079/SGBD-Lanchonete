@@ -39,8 +39,8 @@ INSERT INTO ItemCompra (id_compra, id_produto, quantidade, valor_unitario, lote)
 
 -- 7. Simulando um PEDIDO (Venda)
 -- Cliente João pediu Delivery
-INSERT INTO Pedido (situacao, endereco_entrega, ponto_referencia, troco_para, taxa_entrega, cpf_cliente) VALUES
-('Entregue', 'Rua das Flores, 123', 'Casa Azul', 50.00, 5.00, '11111111111'); -- id_pedido será 1
+INSERT INTO Pedido (situacao, endereco_entrega, ponto_referencia, troco_para, taxa_entrega, valor_total, cpf_cliente) 
+VALUES ('Entregue', 'Rua das Flores, 123', 'Casa Azul', 50.00, 5.00, 36.00, '11111111111');
 
 -- 8. Detalhando os itens do Pedido 1
 -- Ele pediu 1 X-Bacon e 1 Coca-Cola

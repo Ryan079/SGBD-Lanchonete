@@ -1,5 +1,12 @@
 # SGBD-Lanchonete
 
+## Contribuintes
+- Ryan Oliveira Marques
+- Thayson Guedes de Medeiros
+- Luigi Mateo e Silva
+- Lucas Henrique de Andrade Silva
+- Felipe Mendes Soares Silva
+
 ## Instruções de Execução do Projeto
 ### Pré-requisitos
 - Docker Desktop instalado
@@ -16,7 +23,9 @@
 
 2. Clone este repositório ou faça o download dos arquivos do projeto.
 
-3. (Opcional) Caso utilize o **Visual Studio Code**:
+3. Abra o terminal no diretório do projeto e execute 'docker-compose up -d'
+
+3.1 (Opcional) Caso utilize o **Visual Studio Code**:
    - Instale a extensão **Docker / Container Tools**.
    - Abra o arquivo `docker-compose.yml`.
    - Clique em **Run All Services** para iniciar os containers.
@@ -24,16 +33,22 @@
    Alternativamente, execute via terminal:
    ```bash
    docker-compose up -d
-
+```
 ## Modelo Conceitual
 
 ![Modelo Conceitual do projeto](imagens/modeloConceitual.png)
 
 📄 [Versão em PDF](docs/Modelo%20Conceitual.pdf)
 
+## Modelo Entidade Relacionamento
+
+![Modelo Entidade Relacionamento do projeto](docs/ER_dark.pdf)
+
+📄 [Versão em PDF](imagens/ER_dark.jpeg)
+
 ## Dicionário de Dados
 
 📄 [Dicionário de Dados (PDF)](docs/Dicionário%20de%20Dados%20-%20Banco%20de%20Dados%20Att.pdf)
 
 ## DML
-O banco de dados foi povoado através de comandos scripts contidos no arquivo `init.sql` executados automaticamente na primeira execução do container
+O banco de dados foi povoado através de comandos scripts contidos nos arquivos `01_ddl_criacao.sql` e `02_dml_povoamento.sql` executados automaticamente na primeira execução do container
