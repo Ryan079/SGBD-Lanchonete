@@ -23,17 +23,16 @@
 
 2. Clone este repositório ou faça o download dos arquivos do projeto.
 
-3. Abra o terminal no diretório do projeto e execute 'docker-compose up -d'
+3. Abra o terminal no diretório do projeto e execute:
+```bash
+docker-compose up -d
+```
 
 3.1 (Opcional) Caso utilize o **Visual Studio Code**:
    - Instale a extensão **Docker / Container Tools**.
    - Abra o arquivo `docker-compose.yml`.
    - Clique em **Run All Services** para iniciar os containers.
 
-   Alternativamente, execute via terminal:
-   ```bash
-   docker-compose up -d
-```
 ## Modelo Conceitual
 
 ![Modelo Conceitual do projeto](imagens/modeloConceitual.png)
@@ -42,9 +41,9 @@
 
 ## Modelo Entidade Relacionamento
 
-![Modelo Entidade Relacionamento do projeto](docs/ER_dark.pdf)
+![Modelo Entidade Relacionamento do projeto](imagens/ER_dark.jpeg)
 
-📄 [Versão em PDF](imagens/ER_dark.jpeg)
+📄 [Versão em PDF](docs/ER_dark.pdf)
 
 ## Dicionário de Dados
 
