@@ -1,6 +1,7 @@
 package br.edu.ufape.lanchonete.controller;
 
-import br.edu.ufape.lanchonete.model.Fornecedor;
+import br.edu.ufape.lanchonete.dto.FornecedorRequestDTO;
+import br.edu.ufape.lanchonete.dto.FornecedorResponseDTO;
 import br.edu.ufape.lanchonete.service.FornecedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,26 +17,32 @@ public class FornecedorController {
     private FornecedorService fornecedorService;
 
     @PostMapping
-    public ResponseEntity<Fornecedor> criar(@RequestBody Fornecedor fornecedor) {
-        return ResponseEntity.ok(fornecedorService.salvar(fornecedor));
+    public ResponseEntity<FornecedorResponseDTO> criar(@RequestBody FornecedorRequestDTO dto) {
+        try {
+            return ResponseEntity.ok(fornecedorService.salvar(dto));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping
-    public ResponseEntity<List<Fornecedor>> listarTodos() {
+    public ResponseEntity<List<FornecedorResponseDTO>> listarTodos() {
         return ResponseEntity.ok(fornecedorService.listarTodos());
     }
 
     @GetMapping("/{cnpj}")
-    public ResponseEntity<Fornecedor> buscarPorCnpj(@PathVariable String cnpj) {
-        return fornecedorService.buscarPorCnpj(cnpj)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<FornecedorResponseDTO> buscarPorCnpj(@PathVariable String cnpj) {
+        try {
+            return ResponseEntity.ok(fornecedorService.buscarPorCnpj(cnpj));
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{cnpj}")
-    public ResponseEntity<Fornecedor> atualizar(@PathVariable String cnpj, @RequestBody Fornecedor fornecedor) {
+    public ResponseEntity<FornecedorResponseDTO> atualizar(@PathVariable String cnpj, @RequestBody FornecedorRequestDTO dto) {
         try {
-            return ResponseEntity.ok(fornecedorService.atualizar(cnpj, fornecedor));
+            return ResponseEntity.ok(fornecedorService.atualizar(cnpj, dto));
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
@@ -43,7 +50,11 @@ public class FornecedorController {
 
     @DeleteMapping("/{cnpj}")
     public ResponseEntity<Void> deletar(@PathVariable String cnpj) {
-        fornecedorService.deletar(cnpj);
-        return ResponseEntity.noContent().build();
+        try {
+            fornecedorService.deletar(cnpj);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

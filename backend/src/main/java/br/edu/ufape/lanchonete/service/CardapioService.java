@@ -1,43 +1,38 @@
 package br.edu.ufape.lanchonete.service;
-
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import br.edu.ufape.lanchonete.dto.CardapioRequestDTO;
+import br.edu.ufape.lanchonete.dto.CardapioResponseDTO;
 import br.edu.ufape.lanchonete.model.Cardapio;
 import br.edu.ufape.lanchonete.repository.CardapioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CardapioService {
+    @Autowired private CardapioRepository repository;
 
-    @Autowired
-    private CardapioRepository cardapioRepository;
-
-    public Cardapio salvar(Cardapio cardapio) {
-        return cardapioRepository.save(cardapio);
+    public CardapioResponseDTO salvar(CardapioRequestDTO dto) {
+        Cardapio c = new Cardapio(dto.getNome(), dto.getCategoria(), dto.getDescricao(), dto.getPreco());
+        return new CardapioResponseDTO(repository.save(c));
     }
 
-    public List<Cardapio> listarTodos() {
-        return cardapioRepository.findAll();
+    public List<CardapioResponseDTO> listarTodos() {
+        return repository.findAll().stream().map(CardapioResponseDTO::new).collect(Collectors.toList());
     }
 
-    public Optional<Cardapio> buscarPorId(Integer id) {
-        return cardapioRepository.findById(id);
+    public CardapioResponseDTO buscarPorId(Integer id) {
+        return new CardapioResponseDTO(repository.findById(id).orElseThrow(() -> new RuntimeException("Não encontrado")));
     }
 
-    public Cardapio atualizar(Integer id, Cardapio atualizado) {
-        return cardapioRepository.findById(id).map(cardapio -> {
-            cardapio.setNome(atualizado.getNome());
-            cardapio.setCategoria(atualizado.getCategoria());
-            cardapio.setDescricao(atualizado.getDescricao());
-            cardapio.setPreco(atualizado.getPreco());
-            return cardapioRepository.save(cardapio);
-        }).orElseThrow(() -> new RuntimeException("Item do cardápio não encontrado!"));
+    public CardapioResponseDTO atualizar(Integer id, CardapioRequestDTO dto) {
+        Cardapio c = repository.findById(id).orElseThrow(() -> new RuntimeException("Não encontrado"));
+        c.setNome(dto.getNome());
+        c.setCategoria(dto.getCategoria());
+        c.setDescricao(dto.getDescricao());
+        c.setPreco(dto.getPreco());
+        return new CardapioResponseDTO(repository.save(c));
     }
 
-    public void deletar(Integer id) {
-        cardapioRepository.deleteById(id);
-    }
+    public void deletar(Integer id) { repository.deleteById(id); }
 }

@@ -1,20 +1,13 @@
 package br.edu.ufape.lanchonete.controller;
 
-import java.util.List;
-
+import br.edu.ufape.lanchonete.dto.CardapioRequestDTO;
+import br.edu.ufape.lanchonete.dto.CardapioResponseDTO;
+import br.edu.ufape.lanchonete.service.CardapioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import br.edu.ufape.lanchonete.model.Cardapio;
-import br.edu.ufape.lanchonete.service.CardapioService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/cardapio")
@@ -24,26 +17,28 @@ public class CardapioController {
     private CardapioService cardapioService;
 
     @PostMapping
-    public ResponseEntity<Cardapio> criar(@RequestBody Cardapio cardapio) {
-        return ResponseEntity.ok(cardapioService.salvar(cardapio));
+    public ResponseEntity<CardapioResponseDTO> criar(@RequestBody CardapioRequestDTO dto) {
+        return ResponseEntity.ok(cardapioService.salvar(dto));
     }
 
     @GetMapping
-    public ResponseEntity<List<Cardapio>> listarTodos() {
+    public ResponseEntity<List<CardapioResponseDTO>> listarTodos() {
         return ResponseEntity.ok(cardapioService.listarTodos());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cardapio> buscarPorId(@PathVariable Integer id) {
-        return cardapioService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<CardapioResponseDTO> buscarPorId(@PathVariable Integer id) {
+        try {
+            return ResponseEntity.ok(cardapioService.buscarPorId(id));
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cardapio> atualizar(@PathVariable Integer id, @RequestBody Cardapio cardapio) {
+    public ResponseEntity<CardapioResponseDTO> atualizar(@PathVariable Integer id, @RequestBody CardapioRequestDTO dto) {
         try {
-            return ResponseEntity.ok(cardapioService.atualizar(id, cardapio));
+            return ResponseEntity.ok(cardapioService.atualizar(id, dto));
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
@@ -51,7 +46,11 @@ public class CardapioController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
-        cardapioService.deletar(id);
-        return ResponseEntity.noContent().build();
+        try {
+            cardapioService.deletar(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
