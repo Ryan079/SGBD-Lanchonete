@@ -28,29 +28,17 @@ public class CardapioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CardapioResponseDTO> buscarPorId(@PathVariable Integer id) {
-        try {
-            return ResponseEntity.ok(cardapioService.buscarPorId(id));
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(cardapioService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CardapioResponseDTO> atualizar(@PathVariable Integer id, @RequestBody CardapioRequestDTO dto) {
-        try {
-            return ResponseEntity.ok(cardapioService.atualizar(id, dto));
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(cardapioService.atualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
-        try {
-            cardapioService.deletar(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        cardapioService.deletar(id);
+        return ResponseEntity.noContent().build();
     }
 }

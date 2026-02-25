@@ -18,11 +18,7 @@ public class PedidoController {
 
     @PostMapping
     public ResponseEntity<PedidoResponseDTO> criar(@RequestBody PedidoRequestDTO dto) {
-        try {
-            return ResponseEntity.ok(pedidoService.criarPedido(dto));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok(pedidoService.criarPedido(dto));
     }
 
     @GetMapping

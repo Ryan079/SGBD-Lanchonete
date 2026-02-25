@@ -18,11 +18,7 @@ public class FornecedorController {
 
     @PostMapping
     public ResponseEntity<FornecedorResponseDTO> criar(@RequestBody FornecedorRequestDTO dto) {
-        try {
-            return ResponseEntity.ok(fornecedorService.salvar(dto));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok(fornecedorService.salvar(dto));
     }
 
     @GetMapping
@@ -32,29 +28,17 @@ public class FornecedorController {
 
     @GetMapping("/{cnpj}")
     public ResponseEntity<FornecedorResponseDTO> buscarPorCnpj(@PathVariable String cnpj) {
-        try {
-            return ResponseEntity.ok(fornecedorService.buscarPorCnpj(cnpj));
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(fornecedorService.buscarPorCnpj(cnpj));
     }
 
     @PutMapping("/{cnpj}")
     public ResponseEntity<FornecedorResponseDTO> atualizar(@PathVariable String cnpj, @RequestBody FornecedorRequestDTO dto) {
-        try {
-            return ResponseEntity.ok(fornecedorService.atualizar(cnpj, dto));
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(fornecedorService.atualizar(cnpj, dto));
     }
 
     @DeleteMapping("/{cnpj}")
     public ResponseEntity<Void> deletar(@PathVariable String cnpj) {
-        try {
-            fornecedorService.deletar(cnpj);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        fornecedorService.deletar(cnpj);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -13,15 +13,12 @@ import java.util.List;
 @RequestMapping("/api/compras")
 public class CompraController {
 
-    @Autowired private CompraService compraService;
+    @Autowired
+    private CompraService compraService;
 
     @PostMapping
     public ResponseEntity<CompraResponseDTO> registrar(@RequestBody CompraRequestDTO dto) {
-        try {
-            return ResponseEntity.ok(compraService.registrarCompra(dto));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok(compraService.registrarCompra(dto));
     }
 
     @GetMapping

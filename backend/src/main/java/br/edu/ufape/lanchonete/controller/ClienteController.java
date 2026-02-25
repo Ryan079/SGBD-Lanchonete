@@ -18,11 +18,7 @@ public class ClienteController {
 
     @PostMapping
     public ResponseEntity<ClienteResponseDTO> criar(@RequestBody ClienteRequestDTO dto) {
-        try {
-            return ResponseEntity.ok(clienteService.salvarCliente(dto));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build(); // Retorna erro 400 se o CPF já existir
-        }
+        return ResponseEntity.ok(clienteService.salvarCliente(dto));
     }
 
     @GetMapping
@@ -32,29 +28,17 @@ public class ClienteController {
 
     @GetMapping("/{cpf}")
     public ResponseEntity<ClienteResponseDTO> buscarPorCpf(@PathVariable String cpf) {
-        try {
-            return ResponseEntity.ok(clienteService.buscarPorCpf(cpf));
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(clienteService.buscarPorCpf(cpf));
     }
 
     @PutMapping("/{cpf}")
     public ResponseEntity<ClienteResponseDTO> atualizar(@PathVariable String cpf, @RequestBody ClienteRequestDTO dto) {
-        try {
-            return ResponseEntity.ok(clienteService.atualizarCliente(cpf, dto));
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(clienteService.atualizarCliente(cpf, dto));
     }
 
     @DeleteMapping("/{cpf}")
     public ResponseEntity<Void> deletar(@PathVariable String cpf) {
-        try {
-            clienteService.deletarCliente(cpf);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        clienteService.deletarCliente(cpf);
+        return ResponseEntity.noContent().build();
     }
 }

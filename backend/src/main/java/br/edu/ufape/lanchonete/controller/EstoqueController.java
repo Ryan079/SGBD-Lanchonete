@@ -28,29 +28,17 @@ public class EstoqueController {
 
     @GetMapping("/{id}")
     public ResponseEntity<EstoqueResponseDTO> buscarPorId(@PathVariable Integer id) {
-        try {
-            return ResponseEntity.ok(estoqueService.buscarPorId(id));
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(estoqueService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<EstoqueResponseDTO> atualizar(@PathVariable Integer id, @RequestBody EstoqueRequestDTO dto) {
-        try {
-            return ResponseEntity.ok(estoqueService.atualizar(id, dto));
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(estoqueService.atualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
-        try {
-            estoqueService.deletar(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        estoqueService.deletar(id);
+        return ResponseEntity.noContent().build();
     }
 }

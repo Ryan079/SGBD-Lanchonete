@@ -13,15 +13,12 @@ import java.util.List;
 @RequestMapping("/api/pagamentos")
 public class PagamentoController {
 
-    @Autowired private PagamentoService pagamentoService;
+    @Autowired
+    private PagamentoService pagamentoService;
 
     @PostMapping
     public ResponseEntity<PagamentoResponseDTO> registrar(@RequestBody PagamentoRequestDTO dto) {
-        try {
-            return ResponseEntity.ok(pagamentoService.registrarPagamento(dto));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok(pagamentoService.registrarPagamento(dto));
     }
 
     @GetMapping
