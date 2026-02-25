@@ -1,20 +1,13 @@
 package br.edu.ufape.lanchonete.controller;
 
-import java.util.List;
-
+import br.edu.ufape.lanchonete.dto.ClienteRequestDTO;
+import br.edu.ufape.lanchonete.dto.ClienteResponseDTO;
+import br.edu.ufape.lanchonete.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import br.edu.ufape.lanchonete.model.Cliente;
-import br.edu.ufape.lanchonete.service.ClienteService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/clientes")
@@ -24,26 +17,32 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping
-    public ResponseEntity<Cliente> criar(@RequestBody Cliente cliente) {
-        return ResponseEntity.ok(clienteService.salvarCliente(cliente));
+    public ResponseEntity<ClienteResponseDTO> criar(@RequestBody ClienteRequestDTO dto) {
+        try {
+            return ResponseEntity.ok(clienteService.salvarCliente(dto));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build(); // Retorna erro 400 se o CPF já existir
+        }
     }
 
     @GetMapping
-    public ResponseEntity<List<Cliente>> listarTodos() {
+    public ResponseEntity<List<ClienteResponseDTO>> listarTodos() {
         return ResponseEntity.ok(clienteService.listarTodos());
     }
 
     @GetMapping("/{cpf}")
-    public ResponseEntity<Cliente> buscarPorCpf(@PathVariable String cpf) {
-        return clienteService.buscarPorCpf(cpf)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ClienteResponseDTO> buscarPorCpf(@PathVariable String cpf) {
+        try {
+            return ResponseEntity.ok(clienteService.buscarPorCpf(cpf));
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{cpf}")
-    public ResponseEntity<Cliente> atualizar(@PathVariable String cpf, @RequestBody Cliente cliente) {
+    public ResponseEntity<ClienteResponseDTO> atualizar(@PathVariable String cpf, @RequestBody ClienteRequestDTO dto) {
         try {
-            return ResponseEntity.ok(clienteService.atualizarCliente(cpf, cliente));
+            return ResponseEntity.ok(clienteService.atualizarCliente(cpf, dto));
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
@@ -51,7 +50,11 @@ public class ClienteController {
 
     @DeleteMapping("/{cpf}")
     public ResponseEntity<Void> deletar(@PathVariable String cpf) {
-        clienteService.deletarCliente(cpf);
-        return ResponseEntity.noContent().build();
+        try {
+            clienteService.deletarCliente(cpf);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
