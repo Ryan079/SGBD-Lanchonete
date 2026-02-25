@@ -1,13 +1,14 @@
 package br.edu.ufape.lanchonete.service;
 
-import br.edu.ufape.lanchonete.model.Estoque;
-import br.edu.ufape.lanchonete.repository.EstoqueRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import br.edu.ufape.lanchonete.model.Estoque;
+import br.edu.ufape.lanchonete.repository.EstoqueRepository;
 
 @Service
 public class EstoqueService {
@@ -21,7 +22,7 @@ public class EstoqueService {
     }
 
     public List<Estoque> listarTodos() {
-        return EstoqueRepository.findAll();
+        return estoqueRepository.findAll();
     }
 
     public Optional<Estoque> buscarPorId(Integer id) {

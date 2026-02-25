@@ -14,19 +14,19 @@ public class Cardapio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cardapio", nullable = false)
-    private Integer idCardapio; // Número identificador do item no cardápio [cite: 26]
+    private Integer idCardapio; 
 
     @Column(length = 100, nullable = false)
-    private String nome; // Nome comercial do lanche ou bebida [cite: 26]
+    private String nome; 
 
     @Column(length = 20, nullable = false)
-    private String categoria; // Agrupamento lógico (ex: Lanche, Bebida, Sobremesa) [cite: 26]
+    private String categoria; 
 
     @Column(columnDefinition = "TEXT")
-    private String descricao; // Detalhes dos ingredientes [cite: 26]
+    private String descricao; 
 
     @Column(precision = 10, scale = 2, nullable = false)
-    private BigDecimal preco; // Valor de cada item do cardápio [cite: 27]
+    private BigDecimal preco; 
 
     public Cardapio() {}
 
@@ -37,7 +37,6 @@ public class Cardapio {
         this.preco = preco;
     }
 
-    // Getters e Setters
     public Integer getIdCardapio() { return idCardapio; }
     public void setIdCardapio(Integer idCardapio) { this.idCardapio = idCardapio; }
 

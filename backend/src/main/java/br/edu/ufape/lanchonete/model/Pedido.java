@@ -17,7 +17,7 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pedido", nullable = false)
-    private Integer idPedido; // Código único da venda
+    private Integer idPedido; 
 
     @Column(name = "data_hora", columnDefinition = "TIMESTAMP DEFAULT NOW()")
     private LocalDateTime dataHora; // Momento da abertura do pedido

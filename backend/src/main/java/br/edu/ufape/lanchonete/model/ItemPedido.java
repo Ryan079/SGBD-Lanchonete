@@ -18,7 +18,7 @@ public class ItemPedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_item_pedido", nullable = false)
-    private Integer idItemPedido; // Identificador único do item no pedido
+    private Integer idItemPedido; 
 
     @ManyToOne
     @JoinColumn(name = "id_pedido", nullable = false)

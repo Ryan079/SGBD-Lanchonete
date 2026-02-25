@@ -41,7 +41,6 @@ public class Estoque {
         this.dataUltimaAtualizacao = dataUltimaAtualizacao;
     }
 
-    // Getters e Setters
     public Integer getIdProduto() { return idProduto; }
     public void setIdProduto(Integer idProduto) { this.idProduto = idProduto; }
 
