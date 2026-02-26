@@ -33,11 +33,11 @@ SELECT
     pg.metodo_pagamento,
     pg.valor_pago,
     pg.datahora_pagamento
-FROM Pedido p
-JOIN Cliente      c  ON c.cpf            = p.cpf_cliente
-JOIN ItemPedido   ip ON ip.id_pedido     = p.id_pedido
-JOIN Cardapio     ca ON ca.id_cardapio   = ip.id_cardapio
-LEFT JOIN Pagamento pg ON pg.id_pedido   = p.id_pedido;
+FROM pedido p
+JOIN cliente      c  ON c.cpf            = p.cpf_cliente
+JOIN item_pedido   ip ON ip.id_pedido     = p.id_pedido
+JOIN cardapio     ca ON ca.id_cardapio   = ip.id_cardapio
+LEFT JOIN pagamento pg ON pg.id_pedido   = p.id_pedido;
 
 -- View 02 - Agregação e Métricas (#15)
 -- Ranking de produtos por quantidade vendida e receita gerada.
@@ -51,9 +51,9 @@ SELECT
     ca.preco                                   AS preco_unitario,
     SUM(ip.quantidade)                         AS total_unidades_vendidas,
     SUM(ip.quantidade * ip.valor_unitario)     AS receita_total
-FROM Cardapio ca
-JOIN ItemPedido ip ON ip.id_cardapio = ca.id_cardapio
-JOIN Pedido     p  ON p.id_pedido    = ip.id_pedido
+FROM cardapio ca
+JOIN item_pedido ip ON ip.id_cardapio = ca.id_cardapio
+JOIN pedido     p  ON p.id_pedido    = ip.id_pedido
 WHERE p.situacao != 'Cancelado'
 GROUP BY ca.id_cardapio, ca.nome, ca.categoria, ca.preco
 ORDER BY total_unidades_vendidas DESC;
@@ -72,7 +72,7 @@ SELECT
     qtd_estoque_minimo,
     (qtd_estoque_minimo - qtd_estoque_atual) AS qtd_a_repor,
     data_ultima_atualizacao
-FROM Estoque
+FROM estoque
 WHERE qtd_estoque_atual <= qtd_estoque_minimo
 ORDER BY qtd_a_repor DESC;
 
@@ -92,7 +92,7 @@ SELECT
     p.valor_total,
     c.nome      AS nome_cliente,
     c.telefone  AS telefone_cliente
-FROM Pedido p
-JOIN Cliente c ON c.cpf = p.cpf_cliente
+FROM pedido p
+JOIN cliente c ON c.cpf = p.cpf_cliente
 WHERE p.situacao IN ('Pendente', 'Em Preparo')
 ORDER BY p.data_hora ASC;

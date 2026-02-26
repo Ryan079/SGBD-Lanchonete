@@ -1,17 +1,14 @@
 package br.edu.ufape.lanchonete.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
 import br.edu.ufape.lanchonete.dto.ClienteRequestDTO;
 import br.edu.ufape.lanchonete.dto.ClienteResponseDTO;
 import br.edu.ufape.lanchonete.model.Cliente;
 import br.edu.ufape.lanchonete.repository.ClienteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ClienteService {

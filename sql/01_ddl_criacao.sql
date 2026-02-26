@@ -1,29 +1,29 @@
-CREATE TABLE Cliente (
-    cpf CHAR(11) PRIMARY KEY,
+CREATE TABLE cliente (
+    cpf VARCHAR(11) PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     email TEXT,
     telefone VARCHAR(20),
     endereco TEXT
 );
 
-CREATE TABLE Funcionario (
-    cpf CHAR(11) PRIMARY KEY,
+CREATE TABLE funcionario (
+    cpf VARCHAR(11) PRIMARY KEY,
     nome VARCHAR(50) NOT NULL,
     cargo VARCHAR(50) NOT NULL,
     data_admissao DATE NOT NULL,
     salario DECIMAL(10,2) NOT NULL,
-    cpf_gerente CHAR(11),
+    cpf_gerente VARCHAR(11),
     CONSTRAINT fk_func_gerente FOREIGN KEY (cpf_gerente) REFERENCES Funcionario(cpf)
 );
 
-CREATE TABLE Fornecedor (
-    cnpj CHAR(14) PRIMARY KEY,
+CREATE TABLE fornecedor (
+    cnpj VARCHAR(14) PRIMARY KEY,
     nome_empresa VARCHAR(100) NOT NULL,
     data_cadastro DATE NOT NULL,
     telefone VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE Estoque (
+CREATE TABLE estoque (
     id_produto SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     unidade_medida VARCHAR(10) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE Estoque (
     data_ultima_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE Cardapio (
+CREATE TABLE cardapio (
     id_cardapio SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     categoria VARCHAR(20) CHECK (categoria IN ('Bebida', 'Lanche', 'Sobremesa')),
@@ -40,15 +40,15 @@ CREATE TABLE Cardapio (
     preco DECIMAL(10,2) NOT NULL
 );
 
-CREATE TABLE Compra (
+CREATE TABLE compra (
     id_compra SERIAL PRIMARY KEY,
     data_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    cnpj_fornecedor CHAR(14) NOT NULL,
+    cnpj_fornecedor VARCHAR(14) NOT NULL,
     valor_total_compra DECIMAL(10,2) DEFAULT 0,
     CONSTRAINT fk_compra_fornecedor FOREIGN KEY (cnpj_fornecedor) REFERENCES Fornecedor(cnpj)
 );
 
-CREATE TABLE ItemCompra (
+CREATE TABLE item_compra (
     id_item_compra SERIAL NOT NULL,
     id_compra INT NOT NULL,
     id_produto INT NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE ItemCompra (
     CONSTRAINT fk_ic_produto FOREIGN KEY (id_produto) REFERENCES Estoque(id_produto)
 );
 
-CREATE TABLE Pedido (
+CREATE TABLE pedido (
     id_pedido SERIAL PRIMARY KEY,
     data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     situacao VARCHAR(20) DEFAULT 'Pendente' CHECK (situacao IN ('Pendente', 'Em Preparo', 'Entregue', 'Cancelado')),
@@ -69,11 +69,11 @@ CREATE TABLE Pedido (
     troco_para DECIMAL(10,2),
     taxa_entrega DECIMAL(10,2) DEFAULT 0.00,
     valor_total DECIMAL(10,2) DEFAULT 0.00,
-    cpf_cliente CHAR(11),
+    cpf_cliente VARCHAR(11),
     CONSTRAINT fk_ped_cli FOREIGN KEY (cpf_cliente) REFERENCES Cliente(cpf)
 );
 
-CREATE TABLE ItemPedido (
+CREATE TABLE item_pedido (
     id_item_pedido SERIAL PRIMARY KEY,
     id_pedido INT NOT NULL,
     id_cardapio INT NOT NULL,
@@ -83,7 +83,7 @@ CREATE TABLE ItemPedido (
     CONSTRAINT fk_ip_cardapio FOREIGN KEY (id_cardapio) REFERENCES Cardapio(id_cardapio)
 );
 
-CREATE TABLE Pagamento (
+CREATE TABLE pagamento (
     id_pagamento SERIAL PRIMARY KEY,
     id_pedido INT NOT NULL,
     valor_pago DECIMAL(10,2) NOT NULL,
