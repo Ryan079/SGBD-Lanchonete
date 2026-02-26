@@ -1,11 +1,14 @@
 package br.edu.ufape.lanchonete.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import br.edu.ufape.lanchonete.dto.ClienteRequestDTO;
 import br.edu.ufape.lanchonete.dto.ClienteResponseDTO;
 import br.edu.ufape.lanchonete.model.Cliente;
 import br.edu.ufape.lanchonete.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +19,6 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    // CREATE
     public ClienteResponseDTO salvarCliente(ClienteRequestDTO dto) {
         if (clienteRepository.existsById(dto.getCpf())) {
             throw new RuntimeException("Já existe um cliente cadastrado com este CPF.");
@@ -29,10 +31,19 @@ public class ClienteService {
         return new ClienteResponseDTO(cliente);
     }
 
-    public List<ClienteResponseDTO> listarTodos() {
-        return clienteRepository.findAll().stream()
-                .map(ClienteResponseDTO::new)
-                .collect(Collectors.toList());
+    public Page<ClienteResponseDTO> listarTodos(String nomeBusca, Pageable pageable) {
+        Page<Cliente> paginaDeClientes;
+
+        // se o usuario mandou um nome pra filtrar, usa o método de busca
+        if (nomeBusca != null && !nomeBusca.trim().isEmpty()) {
+            paginaDeClientes = clienteRepository.findByNomeContainingIgnoreCase(nomeBusca, pageable);
+        } else {
+            // se nao busca todos com paginação normal
+            paginaDeClientes = clienteRepository.findAll(pageable);
+        }
+
+        // converte um Page<Cliente> para Page<ClienteResponseDTO>
+        return paginaDeClientes.map(ClienteResponseDTO::new);
     }
 
     public ClienteResponseDTO buscarPorCpf(String cpf) {
@@ -41,7 +52,6 @@ public class ClienteService {
         return new ClienteResponseDTO(cliente);
     }
 
-    // UPDATE
     public ClienteResponseDTO atualizarCliente(String cpf, ClienteRequestDTO dto) {
         Cliente cliente = clienteRepository.findById(cpf)
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado!"));
@@ -61,4 +71,6 @@ public class ClienteService {
         }
         clienteRepository.deleteById(cpf);
     }
+
+    
 }

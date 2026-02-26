@@ -6,8 +6,9 @@ import br.edu.ufape.lanchonete.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 
 @RestController
 @RequestMapping("/api/pedidos")
@@ -22,7 +23,10 @@ public class PedidoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PedidoResponseDTO>> listarTodos() {
-        return ResponseEntity.ok(pedidoService.listarTodos());
+    public ResponseEntity<Page<PedidoResponseDTO>> listarTodos(
+            @RequestParam(required = false) String situacao,
+            @PageableDefault(size = 10, page = 0) Pageable pageable) {
+        
+        return ResponseEntity.ok(pedidoService.listarTodos(situacao, pageable));
     }
 }

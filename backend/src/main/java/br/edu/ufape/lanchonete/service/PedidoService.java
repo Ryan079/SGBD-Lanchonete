@@ -14,11 +14,11 @@ import br.edu.ufape.lanchonete.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PedidoService {
@@ -75,9 +75,13 @@ public class PedidoService {
         return new PedidoResponseDTO(pedido);
     }
 
-    public List<PedidoResponseDTO> listarTodos() {
-        return pedidoRepository.findAll().stream()
-                .map(PedidoResponseDTO::new)
-                .collect(Collectors.toList());
+    public Page<PedidoResponseDTO> listarTodos(String situacao, Pageable pageable) {
+        Page<Pedido> pagina;
+        if (situacao != null && !situacao.trim().isEmpty()) {
+            pagina = pedidoRepository.findBySituacaoContainingIgnoreCase(situacao, pageable);
+        } else {
+            pagina = pedidoRepository.findAll(pageable);
+        }
+        return pagina.map(PedidoResponseDTO::new);
     }
 }

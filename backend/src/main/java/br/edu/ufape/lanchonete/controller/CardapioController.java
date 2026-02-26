@@ -6,8 +6,9 @@ import br.edu.ufape.lanchonete.service.CardapioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 
 @RestController
 @RequestMapping("/api/cardapio")
@@ -22,10 +23,12 @@ public class CardapioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CardapioResponseDTO>> listarTodos() {
-        return ResponseEntity.ok(cardapioService.listarTodos());
+    public ResponseEntity<Page<CardapioResponseDTO>> listarTodos(
+            @RequestParam(required = false) String categoria,
+            @PageableDefault(size = 10, page = 0) Pageable pageable) {
+        
+        return ResponseEntity.ok(cardapioService.listarTodos(categoria, pageable));
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<CardapioResponseDTO> buscarPorId(@PathVariable Integer id) {
         return ResponseEntity.ok(cardapioService.buscarPorId(id));

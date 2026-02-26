@@ -1,12 +1,13 @@
 package br.edu.ufape.lanchonete.service;
+
 import br.edu.ufape.lanchonete.dto.CardapioRequestDTO;
 import br.edu.ufape.lanchonete.dto.CardapioResponseDTO;
 import br.edu.ufape.lanchonete.model.Cardapio;
 import br.edu.ufape.lanchonete.repository.CardapioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class CardapioService {
@@ -17,8 +18,14 @@ public class CardapioService {
         return new CardapioResponseDTO(repository.save(c));
     }
 
-    public List<CardapioResponseDTO> listarTodos() {
-        return repository.findAll().stream().map(CardapioResponseDTO::new).collect(Collectors.toList());
+    public Page<CardapioResponseDTO> listarTodos(String categoriaBusca, Pageable pageable) {
+        Page<Cardapio> pagina;
+        if (categoriaBusca != null && !categoriaBusca.trim().isEmpty()) {
+            pagina = cardapioRepository.findByCategoriaContainingIgnoreCase(categoriaBusca, pageable);
+        } else {
+            pagina = cardapioRepository.findAll(pageable);
+        }
+        return pagina.map(CardapioResponseDTO::new);
     }
 
     public CardapioResponseDTO buscarPorId(Integer id) {

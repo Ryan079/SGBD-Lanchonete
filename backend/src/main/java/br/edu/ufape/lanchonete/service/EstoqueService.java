@@ -1,4 +1,5 @@
 package br.edu.ufape.lanchonete.service;
+
 import br.edu.ufape.lanchonete.dto.EstoqueRequestDTO;
 import br.edu.ufape.lanchonete.dto.EstoqueResponseDTO;
 import br.edu.ufape.lanchonete.model.Estoque;
@@ -6,8 +7,8 @@ import br.edu.ufape.lanchonete.repository.EstoqueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class EstoqueService {
@@ -18,8 +19,14 @@ public class EstoqueService {
         return new EstoqueResponseDTO(repository.save(e));
     }
 
-    public List<EstoqueResponseDTO> listarTodos() {
-        return repository.findAll().stream().map(EstoqueResponseDTO::new).collect(Collectors.toList());
+    public Page<EstoqueResponseDTO> listarTodos(String nomeBusca, Pageable pageable) {
+        Page<Estoque> pagina;
+        if (nomeBusca != null && !nomeBusca.trim().isEmpty()) {
+            pagina = estoqueRepository.findByNomeContainingIgnoreCase(nomeBusca, pageable);
+        } else {
+            pagina = estoqueRepository.findAll(pageable);
+        }
+        return pagina.map(EstoqueResponseDTO::new);
     }
 
     public EstoqueResponseDTO buscarPorId(Integer id) {
