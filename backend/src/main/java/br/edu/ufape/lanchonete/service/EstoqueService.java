@@ -5,10 +5,11 @@ import br.edu.ufape.lanchonete.dto.EstoqueResponseDTO;
 import br.edu.ufape.lanchonete.model.Estoque;
 import br.edu.ufape.lanchonete.repository.EstoqueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 public class EstoqueService {
@@ -22,9 +23,9 @@ public class EstoqueService {
     public Page<EstoqueResponseDTO> listarTodos(String nomeBusca, Pageable pageable) {
         Page<Estoque> pagina;
         if (nomeBusca != null && !nomeBusca.trim().isEmpty()) {
-            pagina = estoqueRepository.findByNomeContainingIgnoreCase(nomeBusca, pageable);
+            pagina = repository.findByNomeContainingIgnoreCase(nomeBusca, pageable);
         } else {
-            pagina = estoqueRepository.findAll(pageable);
+            pagina = repository.findAll(pageable);
         }
         return pagina.map(EstoqueResponseDTO::new);
     }

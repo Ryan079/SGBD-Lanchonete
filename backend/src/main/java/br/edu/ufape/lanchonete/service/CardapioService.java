@@ -5,9 +5,9 @@ import br.edu.ufape.lanchonete.dto.CardapioResponseDTO;
 import br.edu.ufape.lanchonete.model.Cardapio;
 import br.edu.ufape.lanchonete.repository.CardapioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CardapioService {
@@ -21,9 +21,9 @@ public class CardapioService {
     public Page<CardapioResponseDTO> listarTodos(String categoriaBusca, Pageable pageable) {
         Page<Cardapio> pagina;
         if (categoriaBusca != null && !categoriaBusca.trim().isEmpty()) {
-            pagina = cardapioRepository.findByCategoriaContainingIgnoreCase(categoriaBusca, pageable);
+            pagina = repository.findByCategoriaContainingIgnoreCase(categoriaBusca, pageable);
         } else {
-            pagina = cardapioRepository.findAll(pageable);
+            pagina = repository.findAll(pageable);
         }
         return pagina.map(CardapioResponseDTO::new);
     }
