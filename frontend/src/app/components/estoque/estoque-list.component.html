@@ -1,0 +1,58 @@
+<div class="page-header">
+  <h2>Estoque</h2>
+  <button class="btn btn--primary" (click)="novoItem()">+ Novo Produto</button>
+</div>
+
+<div class="card">
+  <div class="search-bar">
+    <input type="text" placeholder="Buscar por nome..." [(ngModel)]="busca" (keyup.enter)="pesquisar()" />
+    <button class="btn btn--secondary" (click)="pesquisar()">Buscar</button>
+  </div>
+  <div class="table-wrapper">
+    @if (loading()) {
+      <p style="text-align:center;padding:2rem;color:#6b7280">Carregando...</p>
+    } @else if (itens().length === 0) {
+      <div class="empty-state"><div class="empty-state__icon">📦</div><p>Nenhum produto encontrado</p></div>
+    } @else {
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Nome</th><th>Unidade</th><th>Qtd Atual</th><th>Qtd Mínima</th><th>Status</th><th>Última Atualização</th><th>Ações</th></tr>
+        </thead>
+        <tbody>
+          @for (item of itens(); track item.idProduto) {
+            <tr>
+              <td>{{ item.idProduto }}</td>
+              <td>{{ item.nome }}</td>
+              <td>{{ item.unidadeMedida }}</td>
+              <td>{{ item.qtdEstoqueAtual }}</td>
+              <td>{{ item.qtdEstoqueMinimo }}</td>
+              <td>
+                @if (critico(item)) {
+                  <span class="badge badge--red">Crítico</span>
+                } @else {
+                  <span class="badge badge--green">OK</span>
+                }
+              </td>
+              <td>{{ item.dataUltimaAtualizacao | slice:0:10 }}</td>
+              <td>
+                <div class="actions">
+                  <button class="btn btn--warning btn--sm" (click)="editar(item.idProduto)">Editar</button>
+                  <button class="btn btn--danger btn--sm" (click)="excluir(item.idProduto, item.nome)">Excluir</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      <div class="pagination">
+        <button class="btn btn--secondary btn--sm" [disabled]="page === 0" (click)="anterior()">← Anterior</button>
+        <span>Página {{ page + 1 }} de {{ totalPages }}</span>
+        <button class="btn btn--secondary btn--sm" [disabled]="page >= totalPages - 1" (click)="proximo()">Próxima →</button>
+      </div>
+    }
+  </div>
+</div>
+
+@if (showForm()) {
+  <app-estoque-form [id]="editingId()" (fechar)="fecharForm()" />
+}

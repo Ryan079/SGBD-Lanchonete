@@ -1,0 +1,34 @@
+<div class="page-header">
+  <h2>Compras</h2>
+  <button class="btn btn--primary" (click)="novaCompra()">+ Nova Compra</button>
+</div>
+
+<div class="card">
+  <div class="table-wrapper">
+    @if (loading()) {
+      <p style="text-align:center;padding:2rem;color:#6b7280">Carregando...</p>
+    } @else if (compras().length === 0) {
+      <div class="empty-state"><div class="empty-state__icon">🛒</div><p>Nenhuma compra registrada</p></div>
+    } @else {
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Data</th><th>Fornecedor (CNPJ)</th><th>Valor Total</th></tr>
+        </thead>
+        <tbody>
+          @for (c of compras(); track c.idCompra) {
+            <tr>
+              <td>#{{ c.idCompra }}</td>
+              <td>{{ c.dataCompra | slice:0:10 }}</td>
+              <td>{{ formatarCnpj(c.cnpjFornecedor) }}</td>
+              <td>{{ formatarPreco(c.valorTotalCompra) }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>
+
+@if (showForm()) {
+  <app-compra-form (fechar)="fecharForm()" />
+}

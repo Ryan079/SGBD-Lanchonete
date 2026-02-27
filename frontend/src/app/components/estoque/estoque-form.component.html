@@ -1,0 +1,33 @@
+<div class="modal-overlay" (click)="fechar.emit()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <h3>{{ titulo }}</h3>
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Nome *</label>
+          <input type="text" formControlName="nome" placeholder="Nome do produto" [class.invalid]="err('nome')" maxlength="100" />
+          @if (err('nome')) { <span class="field-error">Nome é obrigatório</span> }
+        </div>
+        <div class="form-group">
+          <label>Unidade de Medida *</label>
+          <input type="text" formControlName="unidadeMedida" placeholder="kg, L, un..." [class.invalid]="err('unidadeMedida')" maxlength="10" />
+          @if (err('unidadeMedida')) { <span class="field-error">Unidade é obrigatória</span> }
+        </div>
+        <div class="form-group">
+          <label>Quantidade Atual</label>
+          <input type="number" formControlName="qtdEstoqueAtual" min="0" [class.invalid]="err('qtdEstoqueAtual')" />
+          @if (err('qtdEstoqueAtual')) { <span class="field-error">Valor inválido</span> }
+        </div>
+        <div class="form-group">
+          <label>Quantidade Mínima</label>
+          <input type="number" formControlName="qtdEstoqueMinimo" min="0" [class.invalid]="err('qtdEstoqueMinimo')" />
+          @if (err('qtdEstoqueMinimo')) { <span class="field-error">Valor inválido</span> }
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn--secondary" (click)="fechar.emit()">Cancelar</button>
+        <button type="submit" class="btn btn--primary" [disabled]="salvando">{{ salvando ? 'Salvando...' : 'Salvar' }}</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="page-header">
+  <h2>Pagamentos</h2>
+  <button class="btn btn--primary" (click)="novoPagamento()">+ Registrar Pagamento</button>
+</div>
+
+<div class="card">
+  <div class="table-wrapper">
+    @if (loading()) {
+      <p style="text-align:center;padding:2rem;color:#6b7280">Carregando...</p>
+    } @else if (pagamentos().length === 0) {
+      <div class="empty-state"><div class="empty-state__icon">💳</div><p>Nenhum pagamento registrado</p></div>
+    } @else {
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Pedido</th><th>Valor Pago</th><th>Método</th><th>Data/Hora</th></tr>
+        </thead>
+        <tbody>
+          @for (p of pagamentos(); track p.idPagamento) {
+            <tr>
+              <td>#{{ p.idPagamento }}</td>
+              <td>#{{ p.idPedido }}</td>
+              <td>{{ formatarPreco(p.valorPago) }}</td>
+              <td><span class="badge badge--blue">{{ p.metodoPagamento }}</span></td>
+              <td>{{ p.datahoraPagamento | slice:0:16 }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>
+
+@if (showForm()) {
+  <app-pagamento-form (fechar)="fecharForm()" />
+}

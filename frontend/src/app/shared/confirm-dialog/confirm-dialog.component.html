@@ -1,0 +1,15 @@
+@if (dialog.state()) {
+  <div class="overlay" (click)="dialog.answer(false)">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal__header">
+        <span class="modal__icon">🗑️</span>
+        <h3 class="modal__title">{{ dialog.state()!.title }}</h3>
+      </div>
+      <p class="modal__message">{{ dialog.state()!.message }}</p>
+      <div class="modal__actions">
+        <button class="btn btn--secondary" (click)="dialog.answer(false)">Cancelar</button>
+        <button class="btn btn--danger" (click)="dialog.answer(true)">Excluir</button>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,49 @@
+<div class="modal-overlay" (click)="fechar.emit()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <h3>{{ titulo }}</h3>
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>CPF *</label>
+          <input type="text" formControlName="cpf" placeholder="000.000.000-00"
+                 [class.invalid]="err('cpf')" maxlength="14" (input)="mascaraCpf($event, 'cpf')" />
+          @if (err('cpf')) {
+            <span class="field-error">
+              @if (form.get('cpf')?.hasError('required')) { CPF é obrigatório }
+              @else { CPF deve ter 11 dígitos }
+            </span>
+          }
+        </div>
+        <div class="form-group">
+          <label>Nome *</label>
+          <input type="text" formControlName="nome" placeholder="Nome completo" [class.invalid]="err('nome')" maxlength="50" />
+          @if (err('nome')) { <span class="field-error">Nome é obrigatório</span> }
+        </div>
+        <div class="form-group">
+          <label>Cargo *</label>
+          <input type="text" formControlName="cargo" placeholder="Ex: Atendente, Cozinheiro..." [class.invalid]="err('cargo')" maxlength="50" />
+          @if (err('cargo')) { <span class="field-error">Cargo é obrigatório</span> }
+        </div>
+        <div class="form-group">
+          <label>Data de Admissão *</label>
+          <input type="date" formControlName="dataAdmissao" [class.invalid]="err('dataAdmissao')" />
+          @if (err('dataAdmissao')) { <span class="field-error">Data é obrigatória</span> }
+        </div>
+        <div class="form-group">
+          <label>Salário (R$) *</label>
+          <input type="number" formControlName="salario" placeholder="0,00" step="0.01" min="0" [class.invalid]="err('salario')" />
+          @if (err('salario')) { <span class="field-error">Salário é obrigatório</span> }
+        </div>
+        <div class="form-group">
+          <label>CPF do Gerente</label>
+          <input type="text" formControlName="cpfGerente" placeholder="000.000.000-00"
+                 maxlength="14" (input)="mascaraCpf($event, 'cpfGerente')" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn--secondary" (click)="fechar.emit()">Cancelar</button>
+        <button type="submit" class="btn btn--primary" [disabled]="salvando">{{ salvando ? 'Salvando...' : 'Salvar' }}</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="page-header">
+  <h2>Clientes</h2>
+  <button class="btn btn--primary" (click)="novoCliente()">+ Novo Cliente</button>
+</div>
+
+<div class="card">
+  <div class="search-bar">
+    <input type="text" placeholder="Buscar por nome..." [(ngModel)]="busca" (keyup.enter)="pesquisar()" />
+    <button class="btn btn--secondary" (click)="pesquisar()">Buscar</button>
+  </div>
+
+  <div class="table-wrapper">
+    @if (loading()) {
+      <p style="text-align:center;padding:2rem;color:#6b7280">Carregando...</p>
+    } @else if (clientes().length === 0) {
+      <div class="empty-state">
+        <div class="empty-state__icon">👤</div>
+        <p>Nenhum cliente encontrado</p>
+      </div>
+    } @else {
+      <table>
+        <thead>
+          <tr>
+            <th>CPF</th><th>Nome</th><th>Email</th><th>Telefone</th><th>Endereço</th><th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of clientes(); track c.cpf) {
+            <tr>
+              <td>{{ c.cpf | slice:0:3 }}.{{ c.cpf | slice:3:6 }}.{{ c.cpf | slice:6:9 }}-{{ c.cpf | slice:9:11 }}</td>
+              <td>{{ c.nome }}</td>
+              <td>{{ c.email || '—' }}</td>
+              <td>{{ c.telefone || '—' }}</td>
+              <td>{{ c.endereco || '—' }}</td>
+              <td>
+                <div class="actions">
+                  <button class="btn btn--warning btn--sm" (click)="editar(c.cpf)">Editar</button>
+                  <button class="btn btn--danger btn--sm" (click)="excluir(c.cpf, c.nome)">Excluir</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      <div class="pagination">
+        <button class="btn btn--secondary btn--sm" [disabled]="page === 0" (click)="anterior()">← Anterior</button>
+        <span>Página {{ page + 1 }} de {{ totalPages }}</span>
+        <button class="btn btn--secondary btn--sm" [disabled]="page >= totalPages - 1" (click)="proximo()">Próxima →</button>
+      </div>
+    }
+  </div>
+</div>
+
+@if (showForm()) {
+  <app-cliente-form [cpf]="editingCpf()" (fechar)="fecharForm()" />
+}

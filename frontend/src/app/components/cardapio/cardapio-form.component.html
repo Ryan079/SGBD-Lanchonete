@@ -1,0 +1,47 @@
+<div class="modal-overlay" (click)="fechar.emit()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <h3>{{ titulo }}</h3>
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Nome *</label>
+          <input type="text" formControlName="nome" placeholder="Nome do item" [class.invalid]="err('nome')" maxlength="100" />
+          @if (err('nome')) { <span class="field-error">Nome é obrigatório</span> }
+        </div>
+
+        <div class="form-group">
+          <label>Categoria *</label>
+          <select formControlName="categoria" [class.invalid]="err('categoria')">
+            <option value="">Selecione...</option>
+            <option value="Bebida">Bebida</option>
+            <option value="Lanche">Lanche</option>
+            <option value="Sobremesa">Sobremesa</option>
+          </select>
+          @if (err('categoria')) { <span class="field-error">Categoria é obrigatória</span> }
+        </div>
+
+        <div class="form-group">
+          <label>Preço (R$) *</label>
+          <input type="number" formControlName="preco" placeholder="0,00" step="0.01" min="0.01" [class.invalid]="err('preco')" />
+          @if (err('preco')) {
+            <span class="field-error">
+              @if (form.get('preco')?.hasError('required')) { Preço é obrigatório }
+              @else { Preço deve ser maior que zero }
+            </span>
+          }
+        </div>
+
+        <div class="form-group form-group--full">
+          <label>Descrição</label>
+          <textarea formControlName="descricao" placeholder="Descrição do item..."></textarea>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn--secondary" (click)="fechar.emit()">Cancelar</button>
+        <button type="submit" class="btn btn--primary" [disabled]="salvando">{{ salvando ? 'Salvando...' : 'Salvar' }}</button>
+      </div>
+    </form>
+  </div>
+</div>

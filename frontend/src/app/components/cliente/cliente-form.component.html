@@ -1,0 +1,58 @@
+<div class="modal-overlay" (click)="fechar.emit()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <h3>{{ titulo }}</h3>
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>CPF *</label>
+          <input type="text" formControlName="cpf" placeholder="000.000.000-00"
+                 [class.invalid]="err('cpf')" maxlength="14"
+                 (input)="aplicarMascaraCpf($event)" />
+          @if (err('cpf')) {
+            <span class="field-error">
+              @if (form.get('cpf')?.hasError('required')) { CPF é obrigatório }
+              @else { CPF deve ter 11 dígitos }
+            </span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Nome *</label>
+          <input type="text" formControlName="nome" placeholder="Nome completo"
+                 [class.invalid]="err('nome')" maxlength="100" />
+          @if (err('nome')) {
+            <span class="field-error">Nome é obrigatório</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" formControlName="email" placeholder="email@exemplo.com"
+                 [class.invalid]="err('email')" />
+          @if (err('email')) {
+            <span class="field-error">Email inválido</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Telefone</label>
+          <input type="text" formControlName="telefone" placeholder="(00) 00000-0000"
+                 maxlength="15" (input)="aplicarMascaraTelefone($event)" />
+        </div>
+
+        <div class="form-group form-group--full">
+          <label>Endereço</label>
+          <input type="text" formControlName="endereco" placeholder="Rua, número, bairro..." />
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn--secondary" (click)="fechar.emit()">Cancelar</button>
+        <button type="submit" class="btn btn--primary" [disabled]="salvando">
+          {{ salvando ? 'Salvando...' : 'Salvar' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
