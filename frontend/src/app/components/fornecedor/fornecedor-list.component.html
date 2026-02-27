@@ -1,0 +1,40 @@
+<div class="page-header">
+  <h2>Fornecedores</h2>
+  <button class="btn btn--primary" (click)="novo()">+ Novo Fornecedor</button>
+</div>
+
+<div class="card">
+  <div class="table-wrapper">
+    @if (loading()) {
+      <p style="text-align:center;padding:2rem;color:#6b7280">Carregando...</p>
+    } @else if (fornecedores().length === 0) {
+      <div class="empty-state"><div class="empty-state__icon">🏭</div><p>Nenhum fornecedor cadastrado</p></div>
+    } @else {
+      <table>
+        <thead>
+          <tr><th>CNPJ</th><th>Empresa</th><th>Telefone</th><th>Data Cadastro</th><th>Ações</th></tr>
+        </thead>
+        <tbody>
+          @for (f of fornecedores(); track f.cnpj) {
+            <tr>
+              <td>{{ formatarCnpj(f.cnpj) }}</td>
+              <td>{{ f.nomeEmpresa }}</td>
+              <td>{{ f.telefone }}</td>
+              <td>{{ f.dataCadastro }}</td>
+              <td>
+                <div class="actions">
+                  <button class="btn btn--warning btn--sm" (click)="editar(f.cnpj)">Editar</button>
+                  <button class="btn btn--danger btn--sm" (click)="excluir(f.cnpj, f.nomeEmpresa)">Excluir</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>
+
+@if (showForm()) {
+  <app-fornecedor-form [cnpj]="editingCnpj()" (fechar)="fecharForm()" />
+}

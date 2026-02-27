@@ -1,0 +1,42 @@
+<div class="page-header">
+  <h2>Funcionários</h2>
+  <button class="btn btn--primary" (click)="novo()">+ Novo Funcionário</button>
+</div>
+
+<div class="card">
+  <div class="table-wrapper">
+    @if (loading()) {
+      <p style="text-align:center;padding:2rem;color:#6b7280">Carregando...</p>
+    } @else if (funcionarios().length === 0) {
+      <div class="empty-state"><div class="empty-state__icon">👷</div><p>Nenhum funcionário cadastrado</p></div>
+    } @else {
+      <table>
+        <thead>
+          <tr><th>CPF</th><th>Nome</th><th>Cargo</th><th>Admissão</th><th>Salário</th><th>CPF Gerente</th><th>Ações</th></tr>
+        </thead>
+        <tbody>
+          @for (f of funcionarios(); track f.cpf) {
+            <tr>
+              <td>{{ formatarCpf(f.cpf) }}</td>
+              <td>{{ f.nome }}</td>
+              <td>{{ f.cargo }}</td>
+              <td>{{ f.dataAdmissao }}</td>
+              <td>{{ formatarSalario(f.salario) }}</td>
+              <td>{{ f.cpfGerente ? formatarCpf(f.cpfGerente) : '—' }}</td>
+              <td>
+                <div class="actions">
+                  <button class="btn btn--warning btn--sm" (click)="editar(f.cpf)">Editar</button>
+                  <button class="btn btn--danger btn--sm" (click)="excluir(f.cpf, f.nome)">Excluir</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>
+
+@if (showForm()) {
+  <app-funcionario-form [cpf]="editingCpf()" (fechar)="fecharForm()" />
+}

@@ -26,7 +26,19 @@ public class PedidoController {
     public ResponseEntity<Page<PedidoResponseDTO>> listarTodos(
             @RequestParam(required = false) String situacao,
             @PageableDefault(size = 10, page = 0) Pageable pageable) {
-        
         return ResponseEntity.ok(pedidoService.listarTodos(situacao, pageable));
+    }
+
+    @PatchMapping("/{id}/situacao")
+    public ResponseEntity<PedidoResponseDTO> atualizarSituacao(
+            @PathVariable Integer id,
+            @RequestParam String situacao) {
+        return ResponseEntity.ok(pedidoService.atualizarSituacao(id, situacao));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+        pedidoService.deletarPedido(id);
+        return ResponseEntity.noContent().build();
     }
 }

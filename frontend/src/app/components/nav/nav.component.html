@@ -1,0 +1,16 @@
+<nav class="sidebar">
+  <div class="sidebar__brand">
+    <span class="sidebar__logo">🥪</span>
+    <span class="sidebar__name">Lanchonete</span>
+  </div>
+  <ul class="sidebar__menu">
+    @for (link of links; track link.path) {
+      <li>
+        <a [routerLink]="link.path" routerLinkActive="active" class="sidebar__link">
+          <span class="sidebar__icon">{{ link.icon }}</span>
+          {{ link.label }}
+        </a>
+      </li>
+    }
+  </ul>
+</nav>

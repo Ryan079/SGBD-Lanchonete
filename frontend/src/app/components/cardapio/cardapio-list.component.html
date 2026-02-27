@@ -1,0 +1,58 @@
+<div class="page-header">
+  <h2>Cardápio</h2>
+  <button class="btn btn--primary" (click)="novoItem()">+ Novo Item</button>
+</div>
+
+<div class="card">
+  <div class="search-bar">
+    <select [(ngModel)]="categoria" (change)="filtrar()">
+      <option value="">Todas as categorias</option>
+      <option value="Bebida">Bebida</option>
+      <option value="Lanche">Lanche</option>
+      <option value="Sobremesa">Sobremesa</option>
+    </select>
+  </div>
+
+  <div class="table-wrapper">
+    @if (loading()) {
+      <p style="text-align:center;padding:2rem;color:#6b7280">Carregando...</p>
+    } @else if (itens().length === 0) {
+      <div class="empty-state">
+        <div class="empty-state__icon">🍔</div>
+        <p>Nenhum item no cardápio</p>
+      </div>
+    } @else {
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Nome</th><th>Categoria</th><th>Preço</th><th>Descrição</th><th>Ações</th></tr>
+        </thead>
+        <tbody>
+          @for (item of itens(); track item.idCardapio) {
+            <tr>
+              <td>{{ item.idCardapio }}</td>
+              <td>{{ item.nome }}</td>
+              <td><span class="badge {{ badgeCategoria(item.categoria) }}">{{ item.categoria }}</span></td>
+              <td>{{ formatarPreco(item.preco) }}</td>
+              <td>{{ item.descricao || '—' }}</td>
+              <td>
+                <div class="actions">
+                  <button class="btn btn--warning btn--sm" (click)="editar(item.idCardapio)">Editar</button>
+                  <button class="btn btn--danger btn--sm" (click)="excluir(item.idCardapio, item.nome)">Excluir</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      <div class="pagination">
+        <button class="btn btn--secondary btn--sm" [disabled]="page === 0" (click)="anterior()">← Anterior</button>
+        <span>Página {{ page + 1 }} de {{ totalPages }}</span>
+        <button class="btn btn--secondary btn--sm" [disabled]="page >= totalPages - 1" (click)="proximo()">Próxima →</button>
+      </div>
+    }
+  </div>
+</div>
+
+@if (showForm()) {
+  <app-cardapio-form [id]="editingId()" (fechar)="fecharForm()" />
+}

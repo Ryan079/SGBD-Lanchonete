@@ -19,11 +19,20 @@ export class PedidoService {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
-    
+
     if (situacao) {
       params = params.set('situacao', situacao);
     }
 
     return this.http.get<PageResponse<PedidoResponse>>(this.baseUrl, { params });
+  }
+
+  atualizarSituacao(id: number, situacao: string): Observable<PedidoResponse> {
+    const params = new HttpParams().set('situacao', situacao);
+    return this.http.patch<PedidoResponse>(`${this.baseUrl}/${id}/situacao`, {}, { params });
+  }
+
+  deletar(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }
