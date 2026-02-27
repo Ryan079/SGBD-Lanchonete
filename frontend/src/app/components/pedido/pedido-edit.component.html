@@ -1,0 +1,24 @@
+<div class="modal-overlay" (click)="fechar.emit()">
+  <div class="modal-box" style="max-width:400px" (click)="$event.stopPropagation()">
+    <h3>Editar Pedido #{{ pedido().idPedido }}</h3>
+    <p style="color:#6b7280;font-size:.875rem;margin-bottom:1.25rem">
+      Cliente: {{ pedido().cpfCliente }} &nbsp;|&nbsp; Total: {{ pedido().valorTotal | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+    </p>
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+      <div class="form-group">
+        <label>Situação *</label>
+        <select formControlName="situacao">
+          @for (s of situacoes; track s) {
+            <option [value]="s">{{ s }}</option>
+          }
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn--secondary" (click)="fechar.emit()">Cancelar</button>
+        <button type="submit" class="btn btn--primary" [disabled]="salvando">
+          {{ salvando ? 'Salvando...' : 'Salvar' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

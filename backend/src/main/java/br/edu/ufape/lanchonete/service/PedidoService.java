@@ -10,6 +10,7 @@ import br.edu.ufape.lanchonete.model.Pedido;
 import br.edu.ufape.lanchonete.repository.CardapioRepository;
 import br.edu.ufape.lanchonete.repository.ClienteRepository;
 import br.edu.ufape.lanchonete.repository.ItemPedidoRepository;
+import br.edu.ufape.lanchonete.repository.PagamentoRepository;
 import br.edu.ufape.lanchonete.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,9 @@ public class PedidoService {
     private ItemPedidoRepository itemPedidoRepository;
 
     @Autowired
+    private PagamentoRepository pagamentoRepository;
+
+    @Autowired
     private ClienteRepository clienteRepository;
 
     @Autowired
@@ -48,7 +52,7 @@ public class PedidoService {
         pedido.setTrocoPara(dto.getTrocoPara() != null ? dto.getTrocoPara() : BigDecimal.ZERO);
         pedido.setSituacao("Pendente");
         pedido.setDataHora(LocalDateTime.now());
-        
+
         pedido = pedidoRepository.save(pedido);
 
         BigDecimal valorTotal = pedido.getTaxaEntrega();
@@ -61,7 +65,7 @@ public class PedidoService {
             itemPedido.setPedido(pedido);
             itemPedido.setCardapio(cardapio);
             itemPedido.setQuantidade(itemDto.getQuantidade());
-            itemPedido.setValorUnitario(cardapio.getPreco()); // Congela o preço no momento da compra
+            itemPedido.setValorUnitario(cardapio.getPreco());
 
             BigDecimal subtotal = cardapio.getPreco().multiply(new BigDecimal(itemDto.getQuantidade()));
             valorTotal = valorTotal.add(subtotal);
@@ -83,5 +87,22 @@ public class PedidoService {
             pagina = pedidoRepository.findAll(pageable);
         }
         return pagina.map(PedidoResponseDTO::new);
+    }
+
+    @Transactional
+    public PedidoResponseDTO atualizarSituacao(Integer id, String situacao) {
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado: " + id));
+        pedido.setSituacao(situacao);
+        return new PedidoResponseDTO(pedidoRepository.save(pedido));
+    }
+
+    @Transactional
+    public void deletarPedido(Integer id) {
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado: " + id));
+        pagamentoRepository.deleteAllByPedido(pedido);
+        itemPedidoRepository.deleteAllByPedido(pedido);
+        pedidoRepository.delete(pedido);
     }
 }
