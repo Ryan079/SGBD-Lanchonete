@@ -1,6 +1,5 @@
 import { Component, inject, input, output, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { CurrencyPipe } from '@angular/common';
 import { PedidoService } from '../../services/pedido.service';
 import { PedidoResponse } from '../../models';
 import { ToastService } from '../../shared/toast/toast.service';
@@ -8,7 +7,7 @@ import { ToastService } from '../../shared/toast/toast.service';
 @Component({
   selector: 'app-pedido-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, CurrencyPipe],
+  imports: [ReactiveFormsModule],
   templateUrl: './pedido-edit.component.html'
 })
 export class PedidoEditComponent implements OnInit {

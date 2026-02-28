@@ -40,7 +40,7 @@
               <td>#{{ p.idPedido }}</td>
               <td>{{ p.dataHora | slice:0:16 }}</td>
               <td>{{ p.cpfCliente }}</td>
-              <td>{{ p.valorTotal | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
+              <td>{{ formatarPreco(p.valorTotal) }}</td>
               <td><span class="badge {{ badgeSituacao(p.situacao) }}">{{ p.situacao }}</span></td>
               <td>
                 <div class="actions">

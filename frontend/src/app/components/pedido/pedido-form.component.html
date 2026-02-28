@@ -1,4 +1,4 @@
-<div class="modal-overlay" (click)="fechar.emit()">
+<div class="modal-overlay" (click)="$event.target === $event.currentTarget && fechar.emit()">
   <div class="modal-box" (click)="$event.stopPropagation()">
     <h3>Novo Pedido</h3>
     <form [formGroup]="form" (ngSubmit)="salvar()">
