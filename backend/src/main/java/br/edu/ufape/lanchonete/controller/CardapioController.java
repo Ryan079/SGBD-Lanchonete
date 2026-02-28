@@ -4,6 +4,7 @@ import br.edu.ufape.lanchonete.dto.CardapioRequestDTO;
 import br.edu.ufape.lanchonete.dto.CardapioResponseDTO;
 import br.edu.ufape.lanchonete.service.CardapioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
@@ -40,8 +41,12 @@ public class CardapioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
-        cardapioService.deletar(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deletar(@PathVariable Integer id) {
+        try {
+            cardapioService.deletar(id);
+            return ResponseEntity.noContent().build();
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(409).body("Item não pode ser excluído pois está vinculado a pedidos existentes.");
+        }
     }
 }
