@@ -175,3 +175,25 @@ textarea { resize: vertical; min-height: 80px; }
   border-radius: 4px; transition: color .15s;
 }
 .btn--icon:hover { color: #dc2626; }
+/* ── Situação radio-button selector ── */
+.situacao-options {
+  display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .25rem;
+}
+.situacao-option {
+  cursor: pointer;
+  padding: .4rem 1rem;
+  border-radius: 999px;
+  border: 2px solid #d1d5db;
+  background: #f9fafb;
+  font-size: .875rem;
+  font-weight: 500;
+  color: #374151;
+  transition: border-color .15s, background .15s, color .15s;
+  user-select: none;
+}
+.situacao-option:hover { border-color: #6b7280; background: #f3f4f6; }
+.situacao-option--selected {
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #1d4ed8;
+}

@@ -1,6 +1,6 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SlicePipe, CurrencyPipe } from '@angular/common';
+import { SlicePipe } from '@angular/common';
 import { PedidoService } from '../../services/pedido.service';
 import { PedidoResponse } from '../../models';
 import { ToastService } from '../../shared/toast/toast.service';
@@ -11,7 +11,7 @@ import { PedidoEditComponent } from './pedido-edit.component';
 @Component({
   selector: 'app-pedido-list',
   standalone: true,
-  imports: [FormsModule, SlicePipe, CurrencyPipe, PedidoFormComponent, PedidoEditComponent],
+  imports: [FormsModule, SlicePipe, PedidoFormComponent, PedidoEditComponent],
   templateUrl: './pedido-list.component.html'
 })
 export class PedidoListComponent implements OnInit {
@@ -58,6 +58,8 @@ export class PedidoListComponent implements OnInit {
     });
   }
 
+  formatarPreco(v: number) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
+
   badgeSituacao(s: string) {
     const m: Record<string, string> = {
       'Pendente': 'badge--yellow',
@@ -72,3 +74,4 @@ export class PedidoListComponent implements OnInit {
   anterior() { if (this.page > 0) { this.page--; this.carregar(); } }
   proximo()  { if (this.page < this.totalPages - 1) { this.page++; this.carregar(); } }
 }
+

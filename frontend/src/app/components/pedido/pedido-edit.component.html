@@ -1,17 +1,20 @@
-<div class="modal-overlay" (click)="fechar.emit()">
+<div class="modal-overlay" (click)="$event.target === $event.currentTarget && fechar.emit()">
   <div class="modal-box" style="max-width:400px" (click)="$event.stopPropagation()">
     <h3>Editar Pedido #{{ pedido().idPedido }}</h3>
     <p style="color:#6b7280;font-size:.875rem;margin-bottom:1.25rem">
-      Cliente: {{ pedido().cpfCliente }} &nbsp;|&nbsp; Total: {{ pedido().valorTotal | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+      Cliente: {{ pedido().cpfCliente }} &nbsp;|&nbsp; Total: {{ pedido().valorTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}
     </p>
     <form [formGroup]="form" (ngSubmit)="salvar()">
       <div class="form-group">
         <label>Situação *</label>
-        <select formControlName="situacao">
+        <div class="situacao-options">
           @for (s of situacoes; track s) {
-            <option [value]="s">{{ s }}</option>
+            <label class="situacao-option" [class.situacao-option--selected]="form.value.situacao === s">
+              <input type="radio" formControlName="situacao" [value]="s" style="display:none">
+              {{ s }}
+            </label>
           }
-        </select>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn--secondary" (click)="fechar.emit()">Cancelar</button>
