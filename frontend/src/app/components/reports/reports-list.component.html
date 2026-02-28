@@ -1,0 +1,82 @@
+<div class="container mt-4">
+  <h2>📊 Painel de Indicadores Estratégicos</h2>
+
+  <div class="row mt-4">
+    <div class="col-md-6 mb-4">
+      <div class="card border-danger">
+        <div class="card-header bg-danger text-white">
+          <h5 class="mb-0">⚠️ Estoque Crítico (Reposição Imediata)</h5>
+        </div>
+        <div class="card-body">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Atual</th>
+                <th>Mínimo</th>
+                <th>A Repor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of estoqueCritico">
+                <td>{{ item.nome }}</td>
+                <td>{{ item.qtdEstoqueAtual }} {{ item.unidadeMedida }}</td>
+                <td>{{ item.qtdEstoqueMinimo }}</td>
+                <td class="text-danger fw-bold">{{ item.qtdARepor }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+      <div class="card border-primary">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">🕒 Fila de Pedidos Pendentes</h5>
+        </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let pedido of pedidosAberto">
+              <div>
+                <strong>#{{ pedido.idPedido }}</strong> - {{ pedido.nomeCliente }}
+                <br><small class="text-muted">{{ pedido.dataHora | date:'HH:mm' }}</small>
+              </div>
+              <span class="badge bg-warning text-dark">{{ pedido.situacao }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-success">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">📈 Ranking de Produtos (Mais Vendidos)</h5>
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Produto</th>
+                <th>Categoria</th>
+                <th>Qtd Vendida</th>
+                <th>Receita Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let prod of produtosPopulares">
+                <td>{{ prod.nomeProduto }}</td>
+                <td>{{ prod.categoria }}</td>
+                <td>{{ prod.totalUnidadesVendidas }}</td>
+                <td>{{ prod.receitaTotal | currency:'BRL' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
