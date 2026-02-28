@@ -63,7 +63,7 @@ CREATE TABLE item_compra (
 CREATE TABLE pedido (
     id_pedido SERIAL PRIMARY KEY,
     data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    situacao VARCHAR(20) DEFAULT 'Pendente' CHECK (situacao IN ('Pendente', 'Em Preparo', 'Entregue', 'Cancelado')),
+    situacao VARCHAR(20) DEFAULT 'Pendente' CHECK (situacao IN ('Pendente', 'Em Preparo', 'Entregue', 'Cancelado', 'Pago')),
     endereco_entrega TEXT,
     ponto_referencia TEXT,
     troco_para DECIMAL(10,2),

@@ -48,7 +48,12 @@ export class CardapioListComponent implements OnInit {
     if (!ok) return;
     this.service.deletar(id).subscribe({
       next: () => { this.toast.success('Item excluído!'); this.carregar(); },
-      error: () => this.toast.error('Erro ao excluir item')
+      error: (err) => {
+        const msg = err?.status === 409
+          ? 'Item não pode ser excluído pois está vinculado a pedidos existentes.'
+          : 'Erro ao excluir item';
+        this.toast.error(msg);
+      }
     });
   }
 

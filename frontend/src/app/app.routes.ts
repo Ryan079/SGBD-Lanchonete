@@ -19,6 +19,10 @@ export const routes: Routes = [
     loadComponent: () => import('./components/pagamento/pagamento-list.component').then(m => m.PagamentoListComponent)
   },
   {
+    path: 'relatorios',
+    loadComponent: () => import('./components/reports/reports-list.component').then(m => m.ReportsListComponent)
+  },
+  {
     path: 'estoque',
     loadComponent: () => import('./components/estoque/estoque-list.component').then(m => m.EstoqueListComponent)
   },

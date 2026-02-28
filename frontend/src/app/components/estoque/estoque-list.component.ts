@@ -47,7 +47,12 @@ export class EstoqueListComponent implements OnInit {
     if (!ok) return;
     this.service.deletar(id).subscribe({
       next: () => { this.toast.success('Produto excluído!'); this.carregar(); },
-      error: () => this.toast.error('Erro ao excluir produto')
+      error: (err) => {
+        const msg = err?.status === 409
+          ? 'Produto não pode ser excluído pois está vinculado a registros de compra.'
+          : 'Erro ao excluir produto';
+        this.toast.error(msg);
+      }
     });
   }
 
