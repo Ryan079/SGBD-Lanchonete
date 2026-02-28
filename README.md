@@ -33,6 +33,12 @@ docker-compose up -d
    - Abra o arquivo `docker-compose.yml`.
    - Clique em **Run All Services** para iniciar os containers.
 
+3.2 Portas de Acesso
+- Após subir os containers, a aplicação estará disponível nas seguintes portas:
+- Frontend: `http://localhost:4200`
+- Backend:** `http://localhost:8080`
+- Banco de Dados:** `localhost:5432`
+
 ## Modelo Conceitual
 
 ![Modelo Conceitual do projeto](imagens/modeloConceitual.png)
