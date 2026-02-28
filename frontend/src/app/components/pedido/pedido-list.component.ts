@@ -65,7 +65,8 @@ export class PedidoListComponent implements OnInit {
       'Pendente': 'badge--yellow',
       'Em Preparo': 'badge--blue',
       'Entregue': 'badge--green',
-      'Cancelado': 'badge--red'
+      'Cancelado': 'badge--red',
+      'Pago': 'badge--green'
     };
     return m[s] || 'badge--gray';
   }

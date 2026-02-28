@@ -1,0 +1,128 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+    <div>
+      <h2 class="h3 mb-0 fw-bold text-dark">Painel Estratégico</h2>
+      <p class="text-muted small mb-0">Visão consolidada da operação e desempenho</p>
+    </div>
+    <button class="btn btn-primary shadow-sm" (click)="carregarIndicadores()" [disabled]="loading">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+      Atualizar Dados
+    </button>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm bg-primary text-white h-100">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 opacity-75 small">Pedidos em Aberto</h6>
+          <h2 class="card-title fw-bold mb-0">{{ pedidosAberto.length }}</h2>
+          <div class="mt-2 small"><i class="bi bi-clock"></i> Fila de produção ativa</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm bg-danger text-white h-100">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 opacity-75 small">Estoque Crítico</h6>
+          <h2 class="card-title fw-bold mb-0">{{ estoqueCritico.length }}</h2>
+          <div class="mt-2 small"><i class="bi bi-exclamation-triangle"></i> Itens para reposição</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm bg-success text-white h-100">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 opacity-75 small">Categoria em Foco</h6>
+          <h2 class="card-title fw-bold mb-0">{{ categoriaSelecionada }}</h2>
+          <div class="mt-2 small"><i class="bi bi-graph-up"></i> Ranking de vendas</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white py-3">
+          <h5 class="card-title mb-0 fw-bold text-secondary">Rastreabilidade de Pedido</h5>
+        </div>
+        <div class="card-body">
+          <div class="input-group mb-3">
+            <input type="number" class="form-control" placeholder="Digite o ID do pedido..." [(ngModel)]="idBuscaPedido">
+            <button class="btn btn-dark" (click)="buscarPedido()">Consultar</button>
+          </div>
+          
+          <div *ngIf="detalhePedido.length > 0" class="table-responsive border rounded">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr class="small text-uppercase">
+                  <th>Produto</th>
+                  <th class="text-center">Qtd</th>
+                  <th class="text-end">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of detalhePedido">
+                  <td>{{ item.nomeProduto }}</td>
+                  <td class="text-center">{{ item.quantidade }}</td>
+                  <td class="text-end fw-bold">{{ item.subtotalItem | currency:'BRL' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+          <h5 class="card-title mb-0 fw-bold text-danger">Alertas de Reposição</h5>
+        </div>
+        <div class="card-body p-0">
+          <div *ngIf="estoqueCritico.length === 0" class="p-4 text-center text-muted">
+            Estoque em níveis normais.
+          </div>
+          <div class="list-group list-group-flush" *ngFor="let s of estoqueCritico">
+            <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+              <div>
+                <h6 class="mb-0 fw-bold">{{ s.nome }}</h6>
+                <small class="text-muted">Atual: {{ s.qtdEstoqueAtual }} {{ s.unidadeMedida }}</small>
+              </div>
+              <div class="text-end">
+                <span class="badge bg-danger rounded-pill">Faltam {{ s.qtdARepor }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0 fw-bold text-secondary">Desempenho por Categoria</h5>
+          <select class="form-select form-select-sm w-auto" [(ngModel)]="categoriaSelecionada" (change)="atualizarRanking()">
+            <option value="Lanche">Lanches</option>
+            <option value="Bebida">Bebidas</option>
+            <option value="Sobremesa">Sobremesas</option>
+          </select>
+        </div>
+        <div class="card-body">
+          <div *ngIf="produtosPopulares.length === 0" class="text-center py-5 text-muted">
+            Sem dados para esta categoria.
+          </div>
+          <div *ngFor="let p of produtosPopulares" class="mb-4">
+            <div class="d-flex justify-content-between mb-1">
+              <span class="fw-bold">{{ p.nomeProduto }}</span>
+              <span class="text-success small fw-bold">{{ p.receitaTotal | currency:'BRL' }}</span>
+            </div>
+            <div class="progress" style="height: 10px;">
+              <div class="progress-bar bg-success" role="progressbar" 
+                   [style.width.%]="(p.totalUnidadesVendidas / 100) * 100"></div>
+            </div>
+            <small class="text-muted">{{ p.totalUnidadesVendidas }} unidades vendidas</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
