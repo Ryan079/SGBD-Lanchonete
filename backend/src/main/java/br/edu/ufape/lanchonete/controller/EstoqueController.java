@@ -4,6 +4,7 @@ import br.edu.ufape.lanchonete.dto.EstoqueRequestDTO;
 import br.edu.ufape.lanchonete.dto.EstoqueResponseDTO;
 import br.edu.ufape.lanchonete.service.EstoqueService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
@@ -49,10 +50,12 @@ public class EstoqueController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+    public ResponseEntity<?> deletar(@PathVariable Integer id) {
         try {
             estoqueService.deletar(id);
             return ResponseEntity.noContent().build();
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(409).body("Produto não pode ser excluído pois está vinculado a registros de compra.");
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
