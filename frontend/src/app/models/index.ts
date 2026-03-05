@@ -11,3 +11,4 @@ export * from './compra.model';
 export * from './funcionario.model';
 export * from './pagamento.model';
 export * from './view.model';
+export * from './relatorios.model';

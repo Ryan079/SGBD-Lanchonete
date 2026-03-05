@@ -19,7 +19,6 @@ public class PedidoCompletoResponseDTO {
     private BigDecimal subtotalItem;
 
     private String metodoPagamento;
-    private BigDecimal valorPago;
 
     public PedidoCompletoResponseDTO(VwPedidoCompleto view) {
         this.idPedido = view.getIdPedido();
@@ -31,7 +30,6 @@ public class PedidoCompletoResponseDTO {
         this.quantidade = view.getQuantidade();
         this.subtotalItem = view.getSubtotalItem();
         this.metodoPagamento = view.getMetodoPagamento();
-        this.valorPago = view.getValorPago();
     }
 
     public Integer getIdPedido() { return idPedido; }
@@ -51,7 +49,4 @@ public class PedidoCompletoResponseDTO {
     public BigDecimal getSubtotalItem() { return subtotalItem; }
 
     public String getMetodoPagamento() { return metodoPagamento; }
-
-    public BigDecimal getValorPago() { return valorPago; }
-    
 }
