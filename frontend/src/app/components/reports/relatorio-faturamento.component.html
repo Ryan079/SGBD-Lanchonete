@@ -1,0 +1,48 @@
+<div class="relatorio-container">
+  <h2>Relatório de Faturamento Diário</h2>
+
+  <div class="filtros">
+    <div class="filtro-group">
+      <label>Data Início:</label>
+      <input type="date" [ngModel]="dataInicio()" (ngModelChange)="dataInicio.set($event)" (change)="carregarDados()">
+    </div>
+    <div class="filtro-group">
+      <label>Data Fim:</label>
+      <input type="date" [ngModel]="dataFim()" (ngModelChange)="dataFim.set($event)" (change)="carregarDados()">
+    </div>
+  </div>
+
+  <div class="acoes">
+    <button class="btn-export" (click)="exportar('pdf')">📄 Exportar PDF</button>
+    <button class="btn-export" (click)="exportar('csv')">📊 Exportar CSV</button>
+  </div>
+
+  <div *ngIf="loading()" class="loading">Carregando...</div>
+
+  <div *ngIf="!loading() && dados().length === 0" class="no-data">
+    Nenhum dado encontrado para o período selecionado.
+  </div>
+
+  <table *ngIf="!loading() && dados().length > 0" class="tabela-relatorio">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Total de Pedidos</th>
+        <th>Faturamento Total</th>
+        <th>Ticket Médio</th>
+        <th>Ticket Mínimo</th>
+        <th>Ticket Máximo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of dados()">
+        <td>{{ formatarData(item.data) }}</td>
+        <td>{{ item.totalPedidos }}</td>
+        <td>{{ formatarMoeda(item.faturamentoTotal) }}</td>
+        <td>{{ formatarMoeda(item.ticketMedio) }}</td>
+        <td>{{ formatarMoeda(item.ticketMinimo) }}</td>
+        <td>{{ formatarMoeda(item.ticketMaximo) }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

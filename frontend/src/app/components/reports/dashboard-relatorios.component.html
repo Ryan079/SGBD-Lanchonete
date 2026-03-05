@@ -1,0 +1,114 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Dashboard de Relatórios</h1>
+    <button class="btn-refresh" (click)="carregarDashboard()">
+      🔄 Atualizar
+    </button>
+  </div>
+
+  <!-- Loading e Error States -->
+  <div *ngIf="loading()" class="loading">Carregando...</div>
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+
+  <!-- Menu de Navegação de Relatórios -->
+  <nav class="relatorios-nav">
+    <button 
+      [class.active]="relatorioSelecionado() === 'dashboard'"
+      (click)="selecionarRelatorio('dashboard')">
+      📊 Dashboard Executivo
+    </button>
+    <button 
+      [class.active]="relatorioSelecionado() === 'faturamento'"
+      (click)="selecionarRelatorio('faturamento')">
+      💰 Faturamento
+    </button>
+    <button 
+      [class.active]="relatorioSelecionado() === 'clientes'"
+      (click)="selecionarRelatorio('clientes')">
+      👥 Clientes
+    </button>
+    <button 
+      [class.active]="relatorioSelecionado() === 'horarios'"
+      (click)="selecionarRelatorio('horarios')">
+      ⏰ Horários de Pico
+    </button>
+    <button 
+      [class.active]="relatorioSelecionado() === 'pagamentos'"
+      (click)="selecionarRelatorio('pagamentos')">
+      💳 Pagamentos
+    </button>
+    <button 
+      [class.active]="relatorioSelecionado() === 'produtos'"
+      (click)="selecionarRelatorio('produtos')">
+      📦 Produtos
+    </button>
+    <button 
+      [class.active]="relatorioSelecionado() === 'categorias'"
+      (click)="selecionarRelatorio('categorias')">
+      📋 Categorias
+    </button>
+  </nav>
+
+  <!-- Dashboard Executivo (KPIs) -->
+  <div *ngIf="relatorioSelecionado() === 'dashboard' && dashboardData()" class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Pedidos Hoje</div>
+      <div class="kpi-value">{{ dashboardData()?.pedidosHoje || 0 }}</div>
+    </div>
+    
+    <div class="kpi-card">
+      <div class="kpi-label">Faturamento Hoje</div>
+      <div class="kpi-value">{{ formatarMoeda(dashboardData()?.faturamentoHoje) }}</div>
+    </div>
+    
+    <div class="kpi-card warning">
+      <div class="kpi-label">Estoque Crítico</div>
+      <div class="kpi-value">{{ dashboardData()?.produtosEstoqueCritico || 0 }}</div>
+    </div>
+    
+    <div class="kpi-card">
+      <div class="kpi-label">Clientes Hoje</div>
+      <div class="kpi-value">{{ dashboardData()?.clientesAtendidosHoje || 0 }}</div>
+    </div>
+    
+    <div class="kpi-card info">
+      <div class="kpi-label">Pedidos em Aberto</div>
+      <div class="kpi-value">{{ dashboardData()?.pedidosEmAberto || 0 }}</div>
+    </div>
+    
+    <div class="kpi-card">
+      <div class="kpi-label">Ticket Médio (Mês)</div>
+      <div class="kpi-value">{{ formatarMoeda(dashboardData()?.ticketMedioMes) }}</div>
+    </div>
+    
+    <div class="kpi-card success">
+      <div class="kpi-label">Faturamento do Mês</div>
+      <div class="kpi-value">{{ formatarMoeda(dashboardData()?.faturamentoMes) }}</div>
+    </div>
+  </div>
+
+  <!-- Componentes de Relatórios Específicos -->
+  <div *ngIf="relatorioSelecionado() === 'faturamento'">
+    <app-relatorio-faturamento></app-relatorio-faturamento>
+  </div>
+
+  <div *ngIf="relatorioSelecionado() === 'clientes'">
+    <app-relatorio-clientes></app-relatorio-clientes>
+  </div>
+
+  <div *ngIf="relatorioSelecionado() === 'horarios'">
+    <app-relatorio-horarios></app-relatorio-horarios>
+  </div>
+
+  <div *ngIf="relatorioSelecionado() === 'pagamentos'">
+    <app-relatorio-pagamentos></app-relatorio-pagamentos>
+  </div>
+
+  <div *ngIf="relatorioSelecionado() === 'produtos'">
+    <app-relatorio-produtos></app-relatorio-produtos>
+  </div>
+
+  <div *ngIf="relatorioSelecionado() === 'categorias'">
+    <app-relatorio-categorias></app-relatorio-categorias>
+  </div>
+</div>

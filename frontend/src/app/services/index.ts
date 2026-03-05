@@ -11,3 +11,4 @@ export * from './compra.service';
 export * from './funcionario.service';
 export * from './pagamento.service';
 export * from './reports.service';
+export * from './relatorios.service';

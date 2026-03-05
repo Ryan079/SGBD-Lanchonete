@@ -80,12 +80,6 @@ public class VwPedidoCompleto {
     @Column(name = "metodo_pagamento", length = 50)
     private String metodoPagamento;
 
-    @Column(name = "valor_pago", precision = 10, scale = 2)
-    private BigDecimal valorPago;
-
-    @Column(name = "datahora_pagamento")
-    private LocalDateTime datahoraPagamento;
-
     public VwPedidoCompleto() {}
 
 
@@ -107,6 +101,4 @@ public class VwPedidoCompleto {
     public String getCategoriaProduto() { return categoriaProduto; }
     public Integer getIdPagamento() { return idPagamento; }
     public String getMetodoPagamento() { return metodoPagamento; }
-    public BigDecimal getValorPago() { return valorPago; }
-    public LocalDateTime getDatahoraPagamento() { return datahoraPagamento; }
 }
