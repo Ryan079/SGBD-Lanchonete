@@ -23,6 +23,10 @@ export const routes: Routes = [
     loadComponent: () => import('./components/reports/reports-list.component').then(m => m.ReportsListComponent)
   },
   {
+    path: 'dashboard-relatorios',
+    loadComponent: () => import('./components/reports/dashboard-relatorios.component').then(m => m.DashboardRelatoriosComponent)
+  },
+  {
     path: 'estoque',
     loadComponent: () => import('./components/estoque/estoque-list.component').then(m => m.EstoqueListComponent)
   },

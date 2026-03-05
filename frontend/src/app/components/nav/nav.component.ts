@@ -15,6 +15,7 @@ export class NavComponent {
     { label: 'Pedidos',      icon: '📋', path: '/pedidos' },
     { label: 'Pagamentos',   icon: '💳', path: '/pagamentos' },
     { label: 'Relatórios',   icon: '📊', path: '/relatorios' },
+    { label: 'Dashboard',    icon: '📈', path: '/dashboard-relatorios' },
     { label: 'Estoque',      icon: '📦', path: '/estoque' },
     { label: 'Fornecedores', icon: '🏭', path: '/fornecedores' },
     { label: 'Compras',      icon: '🛒', path: '/compras' },
