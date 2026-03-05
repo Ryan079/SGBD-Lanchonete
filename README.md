@@ -82,3 +82,9 @@ UPDATE funcionario SET salario = 1000.00 WHERE cpf = '10000000001';
 
 Teste Trigger 3:
 UPDATE estoque SET qtd_estoque_atual = 50 WHERE id_produto = 1;
+
+## Indicação de correções em relação a última entrega feita em 27/02/2026
+Desde a última entrega, o projeto passou por melhorias focadas na otimização de consultas e na integridade das regras de negócio aplicadas diretamente no banco de dados:
+
+* Refatoração e Otimização das Visões (Views): A lógica interna dos relatórios SQL foi profundamente revisada e refatorada. As consultas, junções e agregações foram ajustadas para que o comportamento das views refletisse com máxima exatidão e eficiência os requisitos analíticos idealizados no escopo original do projeto, garantindo relatórios gerenciais mais precisos para a aplicação.
+* Implementação de triggers: Como nova funcionalidade para garantir a auditoria e automação do sistema, foram desenvolvidos gatilhos nativos no banco de dados. Isso transferiu a responsabilidade de verificações críticas para o SGBD, incluindo a geração de histórico de alteração de preços, o bloqueio contra irredutibilidade salarial e a atualização automática do timestamp do estoque.
