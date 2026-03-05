@@ -20,16 +20,24 @@ export class FuncionarioListComponent implements OnInit {
   loading = signal(false);
   showForm = signal(false);
   editingCpf = signal<string | null>(null);
+  page = 0;
+  pageSize = 10;
+
+  get totalPages() { return Math.ceil(this.funcionarios().length / this.pageSize) || 1; }
+  get paginados() { return this.funcionarios().slice(this.page * this.pageSize, (this.page + 1) * this.pageSize); }
 
   ngOnInit() { this.carregar(); }
 
   carregar() {
     this.loading.set(true);
     this.service.listarTodos().subscribe({
-      next: r => { this.funcionarios.set(r); this.loading.set(false); },
+      next: r => { this.funcionarios.set(r); this.page = 0; this.loading.set(false); },
       error: () => { this.toast.error('Erro ao carregar funcionários'); this.loading.set(false); }
     });
   }
+
+  anterior() { if (this.page > 0) this.page--; }
+  proximo()  { if (this.page < this.totalPages - 1) this.page++; }
 
   novo() { this.editingCpf.set(null); this.showForm.set(true); }
   editar(cpf: string) { this.editingCpf.set(cpf); this.showForm.set(true); }

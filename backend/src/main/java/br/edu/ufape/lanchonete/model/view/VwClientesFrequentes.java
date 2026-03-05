@@ -1,7 +1,6 @@
 package br.edu.ufape.lanchonete.model.view;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 import org.hibernate.annotations.Immutable;
 
@@ -25,9 +24,6 @@ public class VwClientesFrequentes {
     @Column(name = "telefone", length = 15)
     private String telefone;
 
-    @Column(name = "email", length = 100)
-    private String email;
-
     @Column(name = "total_pedidos")
     private Long totalPedidos;
 
@@ -36,12 +32,6 @@ public class VwClientesFrequentes {
 
     @Column(name = "ticket_medio", precision = 10, scale = 2)
     private BigDecimal ticketMedio;
-
-    @Column(name = "ultima_compra")
-    private LocalDateTime ultimaCompra;
-
-    @Column(name = "primeira_compra")
-    private LocalDateTime primeiraCompra;
 
     // Construtores
     public VwClientesFrequentes() {
@@ -72,14 +62,6 @@ public class VwClientesFrequentes {
         this.telefone = telefone;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public Long getTotalPedidos() {
         return totalPedidos;
     }
@@ -102,21 +84,5 @@ public class VwClientesFrequentes {
 
     public void setTicketMedio(BigDecimal ticketMedio) {
         this.ticketMedio = ticketMedio;
-    }
-
-    public LocalDateTime getUltimaCompra() {
-        return ultimaCompra;
-    }
-
-    public void setUltimaCompra(LocalDateTime ultimaCompra) {
-        this.ultimaCompra = ultimaCompra;
-    }
-
-    public LocalDateTime getPrimeiraCompra() {
-        return primeiraCompra;
-    }
-
-    public void setPrimeiraCompra(LocalDateTime primeiraCompra) {
-        this.primeiraCompra = primeiraCompra;
     }
 }

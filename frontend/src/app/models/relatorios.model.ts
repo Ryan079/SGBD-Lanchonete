@@ -15,12 +15,9 @@ export interface ClienteFrequente {
   cpf: string;
   cliente: string;
   telefone: string;
-  email: string;
   totalPedidos: number;
   valorTotalGasto: number;
   ticketMedio: number;
-  ultimaCompra: string;
-  primeiraCompra: string;
 }
 
 export interface HorarioPico {

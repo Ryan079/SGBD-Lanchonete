@@ -18,16 +18,24 @@ export class CompraListComponent implements OnInit {
   compras = signal<CompraResponse[]>([]);
   loading = signal(false);
   showForm = signal(false);
+  page = 0;
+  pageSize = 10;
+
+  get totalPages() { return Math.ceil(this.compras().length / this.pageSize) || 1; }
+  get paginados() { return this.compras().slice(this.page * this.pageSize, (this.page + 1) * this.pageSize); }
 
   ngOnInit() { this.carregar(); }
 
   carregar() {
     this.loading.set(true);
     this.service.listarTodos().subscribe({
-      next: r => { this.compras.set(r); this.loading.set(false); },
+      next: r => { this.compras.set(r); this.page = 0; this.loading.set(false); },
       error: () => { this.toast.error('Erro ao carregar compras'); this.loading.set(false); }
     });
   }
+
+  anterior() { if (this.page > 0) this.page--; }
+  proximo()  { if (this.page < this.totalPages - 1) this.page++; }
 
   novaCompra() { this.showForm.set(true); }
   fecharForm() { this.showForm.set(false); this.carregar(); }

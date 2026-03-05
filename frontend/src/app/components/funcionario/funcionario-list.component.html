@@ -15,7 +15,7 @@
           <tr><th>CPF</th><th>Nome</th><th>Cargo</th><th>Admissão</th><th>Salário</th><th>CPF Gerente</th><th>Ações</th></tr>
         </thead>
         <tbody>
-          @for (f of funcionarios(); track f.cpf) {
+          @for (f of paginados; track f.cpf) {
             <tr>
               <td>{{ formatarCpf(f.cpf) }}</td>
               <td>{{ f.nome }}</td>
@@ -33,6 +33,11 @@
           }
         </tbody>
       </table>
+      <div class="pagination">
+        <button class="btn btn--secondary btn--sm" [disabled]="page === 0" (click)="anterior()">← Anterior</button>
+        <span>Página {{ page + 1 }} de {{ totalPages }}</span>
+        <button class="btn btn--secondary btn--sm" [disabled]="page >= totalPages - 1" (click)="proximo()">Próxima →</button>
+      </div>
     }
   </div>
 </div>

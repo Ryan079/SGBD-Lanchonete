@@ -27,7 +27,7 @@ import { ProdutoBaixaRotatividade } from '../../models';
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of dados()">
+          <tr *ngFor="let item of paginados">
             <td>{{ item.produto }}</td>
             <td>{{ item.categoria }}</td>
             <td>{{ formatarMoeda(item.preco) }}</td>
@@ -36,6 +36,11 @@ import { ProdutoBaixaRotatividade } from '../../models';
           </tr>
         </tbody>
       </table>
+      <div *ngIf="dados().length > 0" class="pagination-relatorio">
+        <button (click)="anterior()" [disabled]="page === 0" class="btn-pag">← Anterior</button>
+        <span>Página {{ page + 1 }} de {{ totalPages }}</span>
+        <button (click)="proximo()" [disabled]="page >= totalPages - 1" class="btn-pag">Próxima →</button>
+      </div>
     </div>
   `,
   styles: [`
@@ -72,15 +77,39 @@ import { ProdutoBaixaRotatividade } from '../../models';
       padding: 12px;
       border-bottom: 1px solid #ddd;
     }
+    .pagination-relatorio {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .btn-pag {
+      padding: 6px 16px;
+      background-color: #e5e7eb;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .btn-pag:disabled { opacity: 0.4; cursor: default; }
   `]
 })
 export class RelatorioProdutosComponent implements OnInit {
   private relatoriosService = inject(RelatoriosService);
   dados = signal<ProdutoBaixaRotatividade[]>([]);
+  page = 0;
+  pageSize = 10;
+
+  get totalPages() { return Math.ceil(this.dados().length / this.pageSize) || 1; }
+  get paginados() { return this.dados().slice(this.page * this.pageSize, (this.page + 1) * this.pageSize); }
+
+  anterior() { if (this.page > 0) this.page--; }
+  proximo()  { if (this.page < this.totalPages - 1) this.page++; }
 
   ngOnInit(): void {
     this.relatoriosService.getProdutosBaixaRotatividade().subscribe({
-      next: (data) => this.dados.set(data),
+      next: (data) => { this.dados.set(data); this.page = 0; },
       error: (err) => console.error(err)
     });
   }

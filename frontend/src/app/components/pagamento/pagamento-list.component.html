@@ -15,7 +15,7 @@
           <tr><th>ID</th><th>Pedido</th><th>Valor Pago</th><th>Método</th><th>Data/Hora</th></tr>
         </thead>
         <tbody>
-          @for (p of pagamentos(); track p.idPagamento) {
+          @for (p of paginados; track p.idPagamento) {
             <tr>
               <td>#{{ p.idPagamento }}</td>
               <td>#{{ p.idPedido }}</td>
@@ -26,6 +26,11 @@
           }
         </tbody>
       </table>
+      <div class="pagination">
+        <button class="btn btn--secondary btn--sm" [disabled]="page === 0" (click)="anterior()">← Anterior</button>
+        <span>Página {{ page + 1 }} de {{ totalPages }}</span>
+        <button class="btn btn--secondary btn--sm" [disabled]="page >= totalPages - 1" (click)="proximo()">Próxima →</button>
+      </div>
     }
   </div>
 </div>

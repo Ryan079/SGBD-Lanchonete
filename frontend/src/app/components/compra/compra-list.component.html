@@ -15,7 +15,7 @@
           <tr><th>ID</th><th>Data</th><th>Fornecedor (CNPJ)</th><th>Valor Total</th></tr>
         </thead>
         <tbody>
-          @for (c of compras(); track c.idCompra) {
+          @for (c of paginados; track c.idCompra) {
             <tr>
               <td>#{{ c.idCompra }}</td>
               <td>{{ c.dataCompra | slice:0:10 }}</td>
@@ -25,6 +25,11 @@
           }
         </tbody>
       </table>
+      <div class="pagination">
+        <button class="btn btn--secondary btn--sm" [disabled]="page === 0" (click)="anterior()">← Anterior</button>
+        <span>Página {{ page + 1 }} de {{ totalPages }}</span>
+        <button class="btn btn--secondary btn--sm" [disabled]="page >= totalPages - 1" (click)="proximo()">Próxima →</button>
+      </div>
     }
   </div>
 </div>

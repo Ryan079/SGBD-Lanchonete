@@ -105,6 +105,7 @@ ORDER BY data DESC;
 -- ===================================================================
 CREATE OR REPLACE VIEW vw_clientes_frequentes AS
 SELECT 
+    c.cpf,
     c.nome AS cliente,
     c.telefone,
     COUNT(p.id_pedido) AS total_pedidos,
